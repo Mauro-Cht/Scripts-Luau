@@ -6518,14 +6518,14 @@ spawn(function()
 end)
 
 -- ========================= [ Section Fishing ] =========================
-local Section = Tabs.Fishing:AddSection("Fishing System")
+local Section = Tabs.Farming:AddSection("Fishing System") -- usa Farming se não tiver aba Fishing
 
 local SelectedRod = "Fishing Rod"
 local SelectedBait = "Basic Bait"
 local AutoFishing = false
 
 -- Dropdown Vara
-Tabs.Fishing:AddDropdown("RodSelect", {
+Section:AddDropdown("RodSelect", {
 	Title = "Select Fishing Rod",
 	Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
 	Default = "Fishing Rod",
@@ -6535,7 +6535,7 @@ Tabs.Fishing:AddDropdown("RodSelect", {
 })
 
 -- Dropdown Isca
-Tabs.Fishing:AddDropdown("BaitSelect", {
+Section:AddDropdown("BaitSelect", {
 	Title = "Select Bait",
 	Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
 	Default = "Basic Bait",
@@ -6545,8 +6545,8 @@ Tabs.Fishing:AddDropdown("BaitSelect", {
 })
 
 -- Toggle Auto Fishing
-Tabs.Fishing:AddToggle("AutoFishing", {
-	Title = "Auto Farm Fishing",
+Section:AddToggle("AutoFishing", {
+	Title = "Auto Fishing",
 	Default = false,
 	Callback = function(Value)
 		AutoFishing = Value
@@ -11352,4 +11352,4 @@ Tabs.Misc:AddButton({
 			end)
 		end)
 	end)
-	Window:SelectTab(1).
+	Window:SelectTab(1)
