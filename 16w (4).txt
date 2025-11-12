@@ -2005,7 +2005,7 @@ local Window = Fluent:CreateWindow({
     TabWidth = 175,
     Theme = "VSC Dark High Contrast",
     Acrylic = false,
-    Size = UDim2.fromOffset(340, 340),
+    Size = UDim2.fromOffset(340, 350),
     MinimizeKey = Enum.KeyCode.End,
     UserInfo = true,
     UserInfoTop = false,
@@ -2103,6 +2103,10 @@ local Tabs = {
 	Quests = Window:AddTab({
 		Title = "Farm Outros",
 		Icon = "scroll"
+	}),
+	Fishing = Window:AddTab({
+		Title = "Fishing",
+		Icon = "anchor"
 	}),
 	SeaEvent = Window:AddTab({
 		Title = "Sea Events",
@@ -6486,31 +6490,178 @@ end)
 			end
 		end
 	end)
-	local Q = Tabs.Quests:AddToggle("Q", {
-		Title = "Auto Lei Accessory",
-		Description = "",
-		Default = false
-	})
-	Q:OnChanged(function(Value)
-		_G.AutoKilo = Value
-	end)
-	spawn(function()
-		while wait(.2) do
-			if _G.AutoKilo then
-				pcall(function()
-					local v = GetConnectionEnemies("Kilo Admiral")
-					if v then
-						repeat
-							task.wait()
-							Attack.Kill(v, _G.AutoKilo)
-						until not _G.AutoKilo or not v.Parent or v.Humanoid.Health <= 0
-					else
-						_tp(CFrame.new(2764.2233886719, 432.46154785156, -7144.4580078125))
-					end
-				end)
-			end
+	-- Auto Lei Accessory
+local Q = Tabs.Quests:AddToggle("Q", {
+	Title = "Auto Lei Accessory",
+	Description = "",
+	Default = false
+})
+Q:OnChanged(function(Value)
+	_G.AutoKilo = Value
+end)
+spawn(function()
+	while wait(.2) do
+		if _G.AutoKilo then
+			pcall(function()
+				local v = GetConnectionEnemies("Kilo Admiral")
+				if v then
+					repeat
+						task.wait()
+						Attack.Kill(v, _G.AutoKilo)
+					until not _G.AutoKilo or not v.Parent or v.Humanoid.Health <= 0
+				else
+					_tp(CFrame.new(2764.2233886719, 432.46154785156, -7144.4580078125))
+				end
+			end)
+		end
+	end
+end)
+
+-- ========================= [ Section Fishing ] =========================
+local Section = Tabs.Fishing:AddSection("Fishing System")
+
+local SelectedRod = "Fishing Rod"
+local SelectedBait = "Basic Bait"
+local AutoFishing = false
+
+-- Dropdown Vara
+Tabs.Fishing:AddDropdown("RodSelect", {
+	Title = "Select Fishing Rod",
+	Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
+	Default = "Fishing Rod",
+	Callback = function(Value)
+		SelectedRod = Value
+	end
+})
+
+-- Dropdown Isca
+Tabs.Fishing:AddDropdown("BaitSelect", {
+	Title = "Select Bait",
+	Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
+	Default = "Basic Bait",
+	Callback = function(Value)
+		SelectedBait = Value
+	end
+})
+
+-- Toggle Auto Fishing
+Tabs.Fishing:AddToggle("AutoFishing", {
+	Title = "Auto Farm Fishing",
+	Default = false,
+	Callback = function(Value)
+		AutoFishing = Value
+		if Value then
+			StartFishingLoop()
+		end
+	end
+})
+
+-- ========================= [ Sistema Fishing ] =========================
+local plr = game.Players.LocalPlayer
+local rep = game:GetService("ReplicatedStorage")
+
+local Modules = rep:WaitForChild("Modules")
+local Net = Modules:WaitForChild("Net")
+local FishReplicated = rep:WaitForChild("FishReplicated")
+local FishingRequest = FishReplicated:FindFirstChild("FishingRequest")
+local FishingClient = FishReplicated:WaitForChild("FishingClient")
+local Config = require(FishingClient:WaitForChild("Config"))
+local Util = rep:WaitForChild("Util")
+local GetWaterHeightAtLocation = require(Util:WaitForChild("GetWaterHeightAtLocation"))
+local CommF_ = Net:FindFirstChild("RF/JobsRemoteFunction")
+local CraftRF = Net:FindFirstChild("RF/Craft")
+
+local function EnsureRodAndBait()
+	pcall(function()
+		CommF_:InvokeServer("FishingNPC", "FirstTimeFreeRod")
+		if SelectedRod then
+			CommF_:InvokeServer("LoadItem", SelectedRod, {"Gear"})
 		end
 	end)
+	task.wait(0.5)
+
+	local Data = plr:FindFirstChild("Data") and plr.Data:FindFirstChild("FishingData")
+	if Data and (Data:GetAttribute("SelectedBait") == "None" or Data:GetAttribute("SelectedBait") == nil) then
+		local inv = CommF_:InvokeServer("getInventory")
+		for _, v in pairs(inv) do
+			if v.Type == "Bait" and v.Name == SelectedBait then
+				CommF_:InvokeServer("LoadItem", v.Name, {"Usables"})
+				return
+			end
+		end
+		if CraftRF and SelectedBait then
+			CraftRF:InvokeServer("Craft", SelectedBait)
+			task.wait(2)
+		end
+	end
+end
+
+local function EquipRod()
+	local char = plr.Character
+	if not char then return end
+	local hum = char:FindFirstChildOfClass("Humanoid")
+	if not char:FindFirstChild(SelectedRod) then
+		local Rod = plr.Backpack:FindFirstChild(SelectedRod)
+		if Rod and hum then
+			hum:EquipTool(Rod)
+			task.wait(0.3)
+		end
+	end
+end
+
+local function GetCastPosition()
+	local char = plr.Character
+	if not char then return end
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	local direction = hrp.CFrame.LookVector * (Config.Rod.MaxLaunchDistance or 50)
+	local _, hitPos = workspace:FindPartOnRayWithIgnoreList(
+		Ray.new(char.Head.Position, direction),
+		{char, workspace.Characters, workspace.Enemies}
+	)
+	return hitPos or (hrp.Position + Vector3.new(0, -10, 0))
+end
+
+local function CastLine()
+	if not FishingRequest then return end
+	pcall(function()
+		FishingRequest:InvokeServer("StartCasting")
+		task.wait(0.7)
+		FishingRequest:InvokeServer("CastLineAtLocation", GetCastPosition(), 100, true)
+	end)
+end
+
+local function CatchFish()
+	if not FishingRequest then return end
+	pcall(function()
+		FishingRequest:InvokeServer("Catching", 1)
+		task.wait(0.25)
+		FishingRequest:InvokeServer("Catch", 1)
+	end)
+end
+
+function StartFishingLoop()
+	task.spawn(function()
+		while AutoFishing do
+			task.wait(0.5)
+			pcall(function()
+				local char = plr.Character or plr.CharacterAdded:Wait()
+				if not char then return end
+				EnsureRodAndBait()
+				EquipRod()
+
+				local RodTool = char:FindFirstChild(SelectedRod)
+				if RodTool then
+					local state = RodTool:GetAttribute("ServerState") or RodTool:GetAttribute("State")
+					if state == "Biting" then
+						CatchFish()
+					elseif state == "ReeledIn" or state == "Idle" or not state then
+						CastLine()
+					end
+				end
+			end)
+		end
+	end)
+end
 	if World3 then
 	Tabs.Mirage:AddSection("Mystic Island / Full Moon")
 	FullMOOn = Tabs.Mirage:AddParagraph({
@@ -11201,4 +11352,4 @@ Tabs.Misc:AddButton({
 			end)
 		end)
 	end)
-	Window:SelectTab(1)
+	Window:SelectTab(1).
