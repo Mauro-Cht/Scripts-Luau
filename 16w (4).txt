@@ -3858,7 +3858,7 @@ local MobKilled = CakeSection:AddParagraph({
 })
 
 spawn(function()
-    while wait(0.2) do
+    while task.wait(0.2) do
         pcall(function()
             local Killed = string.match(replicated.Remotes.CommF_:InvokeServer("CakePrinceSpawner"), "%d+")
             if Killed then
@@ -3891,7 +3891,7 @@ local function GetNearestEnemy(names)
     return nearest
 end
 
--- Função para checar se estamos perto de um alvo
+-- Checa se está perto do alvo
 local function IsNearTarget(targetCFrame, range)
     local player = game.Players.LocalPlayer
     local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
@@ -3900,7 +3900,7 @@ local function IsNearTarget(targetCFrame, range)
     return (root.Position - targetCFrame.Position).Magnitude <= range
 end
 
--- Posição principal da ilha Cake Prince
+-- Ponto principal da ilha Cake Prince
 local CakeTargetPos = CFrame.new(-2077, 252, -12373)
 
 -- Toggle Auto Cake Prince
@@ -3928,22 +3928,22 @@ AcceptQuestsToggle:OnChanged(function(Value)
     _G.AcceptQuestC = Value
 end)
 
--- Loop principal Auto Cake Prince
+-- Loop principal Auto Cake Prince + Accept Quest
 spawn(function()
     while task.wait(0.2) do
         pcall(function()
-            if _G.Auto_Cake_Prince then
-                local player = game.Players.LocalPlayer
-                local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-                if not root then return end
+            local player = game.Players.LocalPlayer
+            local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if not root then return end
 
+            -- FARM CAKE PRINCE
+            if _G.Auto_Cake_Prince then
                 local CakeMobs = {"Cookie Crafter","Cake Guard","Baking Staff","Head Baker"}
                 local nearestCakeMob = GetNearestEnemy(CakeMobs)
                 local nearestPrince = GetNearestEnemy({"Cake Prince"})
 
-                -- Foca nos mobs spawnados
-                if nearestPrince or nearestCakeMob then
-                    local target = nearestPrince or nearestCakeMob
+                local target = nearestPrince or nearestCakeMob
+                if target then
                     repeat
                         task.wait()
                         if nearestPrince then
@@ -3953,80 +3953,44 @@ spawn(function()
                         end
                     until not _G.Auto_Cake_Prince or not target.Parent or target.Humanoid.Health <= 0
                 else
-                    -- Teleporta para o ponto principal se estiver longe
+                    -- Teleporta para o ponto principal se longe
                     if not IsNearTarget(CakeTargetPos, 50) then
                         TeleportToTarget(CakeTargetPos)
                         task.wait(0.5)
                     end
                 end
+            end
 
-                -- Aceitar missão somente se perto do NPC
+            -- ACCEPT QUESTS
+            if _G.AcceptQuestC then
                 local questUI = player.PlayerGui.Main.Quest
-                local questPos = CFrame.new(-1927.92, 37.8, -12842.54)
-                if _G.AcceptQuestC and not questUI.Visible and IsNearTarget(questPos, 15) then
-                    TeleportToTarget(questPos)
-                    local questData = {
-                        {"StartQuest","CakeQuest2",2},
-                        {"StartQuest","CakeQuest2",1},
-                        {"StartQuest","CakeQuest1",1},
-                        {"StartQuest","CakeQuest1",2}
-                    }
-                    pcall(function()
-                        game.ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(questData[math.random(1,4)]))
-                    end)
+                local QuestTitle = questUI.Visible and questUI.Container.QuestTitle.Title.Text or ""
+
+                -- Se não tiver quest ativa, pega a quest
+                if not questUI.Visible then
+                    local questTarget = QuestNeta()[6]
+                    _tp(questTarget)
+                    if (root.Position - questTarget.Position).Magnitude <= 5 then
+                        pcall(function()
+                            replicated.Remotes.CommF_:InvokeServer("StartQuest", QuestNeta()[3], QuestNeta()[2])
+                        end)
+                    end
+                end
+
+                -- Se tiver quest ativa e correta, caça os mobs da quest
+                if questUI.Visible and string.find(QuestTitle, QuestNeta()[5]) then
+                    local targetMob = QuestNeta()[1]
+                    for _, mob in pairs(workspace.Enemies:GetChildren()) do
+                        if Attack.Alive(mob) and mob.Name == targetMob then
+                            repeat
+                                task.wait()
+                                Attack.Kill(mob, _G.Auto_Cake_Prince)
+                            until not _G.Auto_Cake_Prince or mob.Humanoid.Health <= 0 or not mob.Parent or not questUI.Visible
+                        end
+                    end
                 end
             end
         end)
-    end
-end)
-
--- Loop Auto Quest integrado com farming
-spawn(function()
-    while wait(0.5) do
-        if _G.AcceptQuestC then
-            pcall(function()
-                local plr = game.Players.LocalPlayer
-                local root = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
-                if not root then return end
-                local questUI = plr.PlayerGui.Main.Quest
-                local QuestTitle = questUI.Container.QuestTitle.Title.Text
-
-                -- Abandonar quest errada
-                if not string.find(QuestTitle, QuestNeta()[5]) then
-                    replicated.Remotes.CommF_:InvokeServer("AbandonQuest")
-                end
-
-                -- Se não tiver quest ativa
-                if not questUI.Visible then
-                    local questTarget = QuestNeta()[6]
-                    if IsNearTarget(questTarget, 10) then
-                        _tp(questTarget)
-                        if (root.Position - questTarget.Position).Magnitude <= 5 then
-                            replicated.Remotes.CommF_:InvokeServer("StartQuest", QuestNeta()[3], QuestNeta()[2])
-                        end
-                    end
-                else
-                    -- Quest ativa: caça mobs
-                    local targetMob = QuestNeta()[1]
-                    if workspace.Enemies:FindFirstChild(targetMob) then
-                        for _, mob in pairs(workspace.Enemies:GetChildren()) do
-                            if Attack.Alive(mob) and mob.Name == targetMob and string.find(QuestTitle, QuestNeta()[5]) then
-                                repeat
-                                    wait()
-                                    Attack.Kill(mob, _G.Level)
-                                until not _G.Level or mob.Humanoid.Health <= 0 or not mob.Parent or not questUI.Visible
-                            end
-                        end
-                    else
-                        -- Se não tiver spawn, vai pro local do mob
-                        _tp(QuestNeta()[4])
-                        if replicated:FindFirstChild(targetMob) then
-                            _tp(replicated:FindFirstChild(targetMob).HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-                        end
-                    end
-                end
-            end)
-        end
     end
 end)
 local BoneSection = Tabs.Main:AddSection("Bones")
