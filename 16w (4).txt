@@ -444,12 +444,14 @@ Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
 		end
 		for _, v in pairs(workspace.Enemies:GetChildren()) do
 			if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-				if (v.PrimaryPart.Position - PosMon).Magnitude <= 165 then
+				if (v.PrimaryPart.Position - PosMon).Magnitude <= 250 then
 					v.PrimaryPart.CFrame = CFrame.new(PosMon)
 					v.PrimaryPart.CanCollide = true;
 					v:FindFirstChild("Humanoid").WalkSpeed = 16;
 					v:FindFirstChild("Humanoid").JumpPower = 50;
-					
+					if v.Humanoid:FindFirstChild("Animator") then
+						v.Humanoid.Animator:Destroy()
+					end;
 					plr.SimulationRadius = math.huge
 				end
 			end
@@ -2003,7 +2005,7 @@ local Window = Fluent:CreateWindow({
     Title = "Night Mystic",
     SubTitle = "By MauroZzx | Blox Fruits",
     TabWidth = 175,
-    Theme = "VSC Dark High Contrast",
+    Theme = "VSC Dark+",
     Acrylic = false,
     Size = UDim2.fromOffset(340, 340),
     MinimizeKey = Enum.KeyCode.End,
@@ -2463,9 +2465,9 @@ local DiscordSection = Tabs.Discord:AddSection("Discord")
 
 -- Botão do Discord
 DiscordSection:AddButton({
-	Title = "Entrar no Discord",
+	Title = "Nosso Servidor do Discord",
 	Callback = function()
-		setclipboard("https://discord.gg/RDHr6hkW")
+		setclipboard("https://discord.gg/nightshadow")
 	end
 })
 
