@@ -1,4 +1,5 @@
-
+--// This file was created by XHider https://
+/infinityscript
 
 	do
 		ply = game.Players
@@ -33,15 +34,13 @@
 	end
 
 	repeat
-    local start = plr.PlayerGui:WaitForChild("Main"):WaitForChild("Loading") and game:IsLoaded()
-    wait()
-until start
-
-World1 = game.PlaceId == 2753915549
-World2 = game.PlaceId == 4442272183 or game.PlaceId == 79091703265657
-World3 = game.PlaceId == 7449423635 or game.PlaceId == 100117331123089
-
-Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
+		local start = plr.PlayerGui:WaitForChild("Main"):WaitForChild("Loading") and game:IsLoaded()
+		wait()
+	until start
+	World1 = game.PlaceId == 2753915549
+	World2 = game.PlaceId == 4442272183
+	World3 = game.PlaceId == 7449423635
+	Sea = World1 or World2 or World3 or plr:Kick("❌ Error : A[12]Blox Fruits ❌")
 	Marines = function()
 		replicated.Remotes.CommF_:InvokeServer("SetTeam", "Marines")
 	end
@@ -447,8 +446,8 @@ Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
 				if (v.PrimaryPart.Position - PosMon).Magnitude <= 250 then
 					v.PrimaryPart.CFrame = CFrame.new(PosMon)
 					v.PrimaryPart.CanCollide = true;
-					v:FindFirstChild("Humanoid").WalkSpeed = 16;
-					v:FindFirstChild("Humanoid").JumpPower = 50;
+					v:FindFirstChild("Humanoid").WalkSpeed = 0;
+					v:FindFirstChild("Humanoid").JumpPower = 0;
 					if v.Humanoid:FindFirstChild("Animator") then
 						v.Humanoid.Animator:Destroy()
 					end;
@@ -541,7 +540,45 @@ Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
 			end
 		end
 	end
-	
+	LowCpu = function()
+		local decalsyeeted = true
+		local g = game
+		local w = g.Workspace
+		local l = g.Lighting
+		local t = w.Terrain
+		t.WaterWaveSize = 0
+		t.WaterWaveSpeed = 0
+		t.WaterReflectance = 0
+		t.WaterTransparency = 0
+		l.GlobalShadows = false
+		l.FogEnd = 9e9
+		l.Brightness = 0
+		settings().Rendering.QualityLevel = "Level01"
+		for i, v in pairs(g:GetDescendants()) do
+			if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+				v.Material = "Plastic"
+				v.Reflectance = 0
+			elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+				v.Transparency = 1
+			elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+				v.Lifetime = NumberRange.new(0)
+			elseif v:IsA("Explosion") then
+				v.BlastPressure = 1
+				v.BlastRadius = 1
+			elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+				v.Enabled = false
+			elseif v:IsA("MeshPart") then
+				v.Material = "Plastic"
+				v.Reflectance = 0
+				v.TextureID = 10385902758728957
+			end
+		end
+		for i, e in pairs(l:GetChildren()) do
+			if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+				e.Enabled = false
+			end
+		end
+	end
 	CheckF = function()
 		if GetBP("Dragon-Dragon") or GetBP("Gas-Gas") or GetBP("Yeti-Yeti") or GetBP("Kitsune-Kitsune") or GetBP("T-Rex-T-Rex") then
 			return true
@@ -882,7 +919,11 @@ Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
 						Noclip.Velocity = Vector3.new(0, 0, 0)
 					end
 					if not plr.Character:FindFirstChild('highlight') then
-						
+						local Test = Instance.new('Highlight')
+						Test.Name = "highlight"
+						Test.Enabled = true
+						Test.FillColor = Color3.fromRGB(0, 191, 255) -- xanh nước biển
+						Test.OutlineColor = Color3.fromRGB(255, 255, 255)
 						Test.FillTransparency = 0.5
 						Test.OutlineTransparency = 0.2
 						Test.Parent = plr.Character
@@ -1961,22 +2002,17 @@ Sea = World1 or World2 or World3 or plr:Kick("No Support Game")
 		}
 	end
 
-	local Fluent = loadstring(game:HttpGet("https://files.catbox.moe/pj2qb9.lua", true))()
+	local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/discoart/FluentPlus/refs/heads/main/Beta.lua"))()
+	local Window = Fluent:CreateWindow({
+		Title = "Night Mystic | Beta",
+		SubTitle = "by Araújo7xp & Mauro | Blox Fruits",
+		TabWidth = 160,
+		Theme = "Arctic",
+		Acrylic = false,
+		Size = UDim2.fromOffset(450, 350),
+		MinimizeKey = Enum.KeyCode.End
+	})
 
-local Window = Fluent:CreateWindow({
-    Title = "Night Mystic",
-    SubTitle = "By MauroZzx | Blox Fruits",
-    TabWidth = 175,
-    Theme = "VSC Dark+",
-    Acrylic = false,
-    Size = UDim2.fromOffset(340, 340),
-    MinimizeKey = Enum.KeyCode.End,
-    UserInfo = true,
-    UserInfoTop = false,
-    UserInfoTitle = game.Players.LocalPlayer.DisplayName,
-    UserInfoSubtitle = "Player",
-    UserInfoSubtitleColor = Color3.fromRGB(71, 123, 255)
-})
 	local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ControlGUI"
 screenGui.Parent = game.CoreGui
@@ -1985,7 +2021,7 @@ screenGui.Parent = game.CoreGui
 local toggleButton = Instance.new("ImageButton")
 toggleButton.Size = UDim2.new(0, 50, 0, 50)
 toggleButton.Position = UDim2.new(0.15, 0, 0.15, 0)
-toggleButton.Image = "rbxassetid://4911164158" -- sua imagem
+toggleButton.Image = "rbxassetid://76595458631173" -- sua imagem
 toggleButton.ScaleType = Enum.ScaleType.Fit
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 102, 255) -- cor de fundo (caso a imagem tenha transparência)
 toggleButton.Parent = screenGui
@@ -2042,8 +2078,7 @@ end)
 			Window:Minimize(true)
 		end
 	end)
-	
-local Tabs = {
+	local Tabs = {
 	Discord = Window:AddTab({
 		Title = "Home",
 		Icon = "message-circle"
@@ -2255,7 +2290,6 @@ function StartFishingLoop()
 		end
 	end)
 end
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local plr = Players.LocalPlayer
@@ -2284,7 +2318,7 @@ T1:OnChanged(ToggleAutoRandomFruit)
 local T2 = Tabs.Fruit:AddToggle("AutoStoreFruit", { Title = "Auto Store Fruit", Default = false })
 T2:OnChanged(ToggleAutoStoreFruit)
 
-local T3 = Tabs.Fruit:AddToggle("AutoBringFruit", { Title = "Auto Collect Fruit (Insta Teleport (risk)", Default = false })
+local T3 = Tabs.Fruit:AddToggle("AutoBringFruit", { Title = "Auto Collect Fruit (Insta Teleport", Default = false })
 T3:OnChanged(ToggleAutoBringFruit)
 
 local T4 = Tabs.Fruit:AddToggle("CollectTweenFruit", { Title = "Collect Fruit (Tween)", Default = false })
@@ -2323,7 +2357,7 @@ local function BringFruit(item)
     end
 end
 
-local MaxSpeed = 350
+local MaxSpeed = 330
 local function getCharacter()
     if not plr.Character then
         plr.CharacterAdded:Wait()
@@ -2407,7 +2441,7 @@ task.spawn(function()
     end
 end)
 
-	-- Section Home
+-- Section Home
 local HomeSection = Tabs.Discord:AddSection("Home")
 
 -- Paragraph de tempo
@@ -2514,6 +2548,53 @@ if World3 then
         end
     end)
 end
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local Players = game:GetService("Players")
+	if World3 then
+		Tabs.Main:AddSection("Farm")
+		local TeleportToggle = Tabs.Main:AddToggle("tpSubmarineWorker", {
+			Title = "Teleport Submerged Island",
+			Description = "Teleport to Submarine Worker (Level >= 2600, World 3 only)",
+			Default = false,
+			Callback = function(value)
+				_G.tpSubmarineWorker = value
+			end
+		})
+		spawn(function()
+			while wait(0.5) do
+				if _G.tpSubmarineWorker then
+					pcall(function()
+						local a = Players.LocalPlayer.Data.Level.Value
+						local npcPosition = CFrame.new(-16269.1016, 29.5177539, 1372.3204)
+
+						-- Kiểm tra level >= 2600
+						if a >= 2600 then
+							-- Teleport đến NPC
+							if Players.LocalPlayer.Character and Players.LocalPlayer.Character.HumanoidRootPart then
+								local maxAttempts = 3
+								local attempt = 1
+								local distance = math.huge
+
+								while attempt <= maxAttempts and distance > 10 do
+									_tp(npcPosition)
+									wait(3)
+									if Players.LocalPlayer.Character and Players.LocalPlayer.Character.HumanoidRootPart then
+										distance = (Players.LocalPlayer.Character.HumanoidRootPart.Position - npcPosition.Position).Magnitude
+										attempt = attempt + 1
+									else
+										return
+									end
+								end
+							end
+						else
+							_G.tpSubmarineWorker = false
+							TeleportToggle:Set(false)
+						end
+					end)
+				end
+			end
+		end)
+	end
 	local FarmLevel = Tabs.Main:AddToggle("FarmLevel", {
 		Title = "Auto Farm Level",
 		Description = "Famar Níveis Automaticamente",
@@ -3848,8 +3929,7 @@ end
 	end)
 	if World3 then
 	Tabs.Main:AddSection("Generals Quests / Items")
-	
-local MobKilled = Tabs.Main:AddParagraph({
+	local MobKilled = Tabs.Main:AddParagraph({
 		Title = "Cake Princes :",
 		Content = ""
 	})
@@ -4915,7 +4995,61 @@ end)
 		end
 	end)
 
-	
+	Tabs.Settings:AddSection("Settings / Configure")
+	local _Weapon = {
+		"Melee",
+		"Sword",
+		"Blox Fruit",
+		"Gun"
+	}
+	local Weapon_Config = Tabs.Settings:AddDropdown("Weapon_Config", {
+		Title = "Weapons",
+		Values = _Weapon,
+		Multi = false,
+		Default = 1
+	})
+	Weapon_Config:OnChanged(function(Value)
+		_G.ChooseWP = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			pcall(function()
+				if _G.ChooseWP == "Melee" then
+					for _, v in pairs(plr.Backpack:GetChildren()) do
+						if v.ToolTip == "Melee" then
+							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+								_G.SelectWeapon = v.Name
+							end
+						end
+					end
+				elseif _G.ChooseWP == "Sword" then
+					for _, v in pairs(plr.Backpack:GetChildren()) do
+						if v.ToolTip == "Sword" then
+							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+								_G.SelectWeapon = v.Name
+							end
+						end
+					end
+				elseif _G.ChooseWP == "Gun" then
+					for _, v in pairs(plr.Backpack:GetChildren()) do
+						if v.ToolTip == "Gun" then
+							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+								_G.SelectWeapon = v.Name
+							end
+						end
+					end
+				elseif _G.ChooseWP == "Blox Fruit" then
+					for _, v in pairs(plr.Backpack:GetChildren()) do
+						if v.ToolTip == "Blox Fruit" then
+							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+								_G.SelectWeapon = v.Name
+							end
+						end
+					end
+				end
+			end)
+		end
+	end)
 
 	local Initialize = Tabs.Settings:AddToggle("Initialize", {
 		Title = "Auto Attack",
@@ -5224,7 +5358,363 @@ end)
 		end
 	end)
 
-	
+	Tabs.Melee:AddSection("Fighting Melee Styles")
+	local SuperHuman = Tabs.Melee:AddToggle("SuperHuman", {
+		Title = "Auto Superhuman",
+		Description = "",
+		Default = false
+	})
+	SuperHuman:OnChanged(function(Value)
+		_G.Auto_SuperHuman = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			pcall(function()
+				if _G.Auto_SuperHuman then
+					local M_Beli = plr.Data.Beli.Value
+					local M_Frag = plr.Data.Fragments.Value
+					if plr:FindFirstChild("WeaponAssetCache") then
+						if not GetBP("Superhuman") then
+							if not GetBP("Black Leg") then
+								if (M_Beli >= 150000) then
+									replicated.Remotes.CommF_:InvokeServer("BuyBlackLeg")
+								end
+							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value < 299 then
+								_G.Level = true
+							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value >= 300 then
+								_G.Level = false
+							end
+							if not GetBP("Electro") then
+								if (M_Beli >= 500000) then
+									replicated.Remotes.CommF_:InvokeServer("BuyElectro")
+								end
+							elseif GetBP("Electro") and GetBP("Electro").Level.Value < 299 then
+								_G.Level = true
+							elseif GetBP("Electro") and GetBP("Electro").Level.Value >= 300 then
+								_G.Level = false
+							end
+							if not GetBP("Fishman Karate") then
+								if (M_Beli >= 750000) then
+									replicated.Remotes.CommF_:InvokeServer("BuyFishmanKarate")
+								end
+							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value < 299 then
+								_G.Level = true
+							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value >= 300 then
+								_G.Level = false
+							end
+							if not GetBP("Dragon Claw") then
+								if (M_Frag >= 1500) then
+									replicated.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
+								end
+							elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value < 299 then
+								_G.Level = true
+							elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value >= 300 then
+								_G.Level = false
+							end
+							replicated.Remotes.CommF_:InvokeServer("BuySuperhuman")
+						end
+					end
+				end
+			end)
+		end
+	end)
+	local DeathStep = Tabs.Melee:AddToggle("DeathStep", {
+		Title = "Auto DeathStep",
+		Description = "",
+		Default = false
+	})
+	DeathStep:OnChanged(function(Value)
+		_G.AutoDeathStep = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			if _G.AutoDeathStep then
+				pcall(function()
+					if plr:FindFirstChild("WeaponAssetCache") then
+						if not GetBP("Death Step") then
+							if not GetBP("Black Leg") then
+								replicated.Remotes.CommF_:InvokeServer("BuyBlackLeg")
+							end
+							if GetBP("Black Leg") and GetBP("Black Leg").Level.Value >= 400 then
+								replicated.Remotes.CommF_:InvokeServer("BuyDeathStep")
+								_G.Level = false
+							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value < 399 then
+								_G.Level = true
+							end
+							if GetBP("Black Leg") or GetBP("Black Leg").Level.Value >= 400 then
+								if workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.Transparency == 0 then
+									if GetBP("Library Key") then
+										repeat
+											wait()
+											_tp(CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375))
+										until not _G.AutoDeathStep or (Root.Position == CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375).Position)
+										if (Root.CFrame == CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375)) then
+											replicated.Remotes.CommF_:InvokeServer("BuyDeathStep")
+										end
+									elseif not GetBP("Library Key") then
+										local v = GetConnectionEnemies("Awakened Ice Admiral")
+										if v then
+											repeat
+												wait()
+												Attack.Kill(v, _G.AutoDeathStep)
+											until not v.Parent or v.Humanoid.Health <= 0 or _G.AutoDeathStep == false or GetBP("Library Key") or GetBP("Death Step")
+										else
+											_tp(CFrame.new(5668.9780273438, 28.519989013672, -6483.3520507813))
+										end
+									end
+								end
+							end
+						end
+					end
+				end)
+			end
+		end
+	end)
+	local SharkManV2 = Tabs.Melee:AddToggle("SharkManV2", {
+		Title = "Auto Sharkman Karate",
+		Description = "",
+		Default = false
+	})
+	SharkManV2:OnChanged(function(Value)
+		_G.Auto_SharkMan_Karate = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			if _G.Auto_SharkMan_Karate then
+				pcall(function()
+					if plr:FindFirstChild("WeaponAssetCache") then
+						if not GetBP("Sharkman Karate") then
+							if not GetBP("Fishman Karate") then
+								replicated.Remotes.CommF_:InvokeServer("BuyFishmanKarate")
+							end
+							if GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value >= 400 then
+								replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate")
+								_G.Level = false
+							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value < 399 then
+								_G.Level = true
+							end
+							if GetBP("Fishman Karate") or GetBP("Fishman Karate").Level.Value >= 400 then
+								if GetBP("Water Key") then
+									if string.find(replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate"), "keys") then
+										if GetBP("Water Key") then
+											repeat
+												wait()
+												_tp(CFrame.new(-2604.6958, 239.432526, -10315.1982, 0.0425701365, 0, -0.999093413, 0, 1, 0, 0.999093413, 0, 0.0425701365))
+											until not _G.Auto_SharkMan_Karate or (Root.Position == CFrame.new(-2604.6958, 239.432526, -10315.1982, 0.0425701365, 0, -0.999093413, 0, 1, 0, 0.999093413, 0, 0.0425701365).Position)
+											replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate")
+										end
+									end
+								elseif not GetBP("Water Key") then
+									local v = GetConnectionEnemies("Tide Keeper")
+									if v then
+										repeat
+											wait()
+											Attack.Kill(v, _G.Auto_SharkMan_Karate)
+										until not v.Parent or v.Humanoid.Health <= 0 or _G.Auto_SharkMan_Karate == false or GetBP("Water Key") or GetBP("Sharkman Karate")
+									else
+										_tp(CFrame.new(-3053.9814453125, 237.18954467773, -10145.0390625))
+									end
+								end
+							end
+						end
+					end
+				end)
+			end
+		end
+	end)
+	local ElectricClaw = Tabs.Melee:AddToggle("ElectricClaw", {
+		Title = "Auto ElectricClaw",
+		Description = "",
+		Default = false
+	})
+	ElectricClaw:OnChanged(function(Value)
+		_G.Auto_Electric_Claw = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			if _G.Auto_Electric_Claw then
+				pcall(function()
+					if plr:FindFirstChild("WeaponAssetCache") then
+						if not GetBP("Electro") then
+							replicated.Remotes.CommF_:InvokeServer("BuyElectro")
+						end
+						if GetBP("Electro") and GetBP("Electro").Level.Value >= 400 then
+							if replicated.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start") == nil then
+								notween(CFrame.new(-12548, 337, -7481))
+							end
+							replicated.Remotes.CommF_:InvokeServer("BuyElectricClaw")
+						elseif GetBP("Electro") and GetBP("Electro").Level.Value < 400 then
+							repeat
+								_G.AutoFarm_Bone = true
+								wait()
+							until not _G.Auto_Electric_Claw or GetBP("Electric Claw")
+							_G.AutoFarm_Bone = false
+						end
+					end
+				end)
+			end
+		end
+	end)
+	local DragonTalon = Tabs.Melee:AddToggle("DragonTalon", {
+		Title = "Auto DragonTalon",
+		Description = "",
+		Default = false
+	})
+	DragonTalon:OnChanged(function(Value)
+		_G.AutoDragonTalon = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			if _G.AutoDragonTalon then
+				pcall(function()
+					if plr:FindFirstChild("WeaponAssetCache") then
+						if not GetBP("Dragon Claw") then
+							replicated.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
+						end
+						if GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value >= 400 then
+							replicated.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
+							replicated.Remotes.CommF_:InvokeServer("BuyDragonTalon")
+						elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value < 400 then
+							repeat
+								_G.AutoFarm_Bone = true
+								wait()
+							until not _G.AutoDragonTalon or GetBP("Dragon Talon")
+							_G.AutoFarm_Bone = false
+						end
+					end
+				end)
+			end
+		end
+	end)
+	local Godhuman = Tabs.Melee:AddToggle("Godhuman", {
+		Title = "Auto Godhuman",
+		Description = "",
+		Default = false
+	})
+	Godhuman:OnChanged(function(Value)
+		_G.Auto_God_Human = Value
+	end)
+	spawn(function()
+		while wait() do
+			pcall(function()
+				if _G.AutoGodHuman then
+					if replicated.Remotes.CommF_:InvokeServer("BuyGodhuman", true) == "Bring me 20 Fish Tails, 20 Magma Ore, 10 Dragon Scales and 10 Mystic Droplets." then
+						if GetM("Dragon Scale") == false or GetM("Dragon Scale") < 10 then
+							if World3 then
+								Lv = 1575
+								_G.Level = true
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelZou")
+							end
+						elseif GetM("Fish Tail") == false or GetM("Fish Tail") < 20 then
+							if World3 then
+								Lv = 1775
+								_G.Level = true
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelZou")
+							end
+						elseif GetM("Mystic Droplet") == false or GetM("Mystic Droplet") < 10 then
+							if World2 then
+								Lv = 1425
+								_G.Level = true
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
+							end
+						elseif GetM("Magma Ore") == false or GetM("Magma Ore") < 20 then
+							if World2 then
+								Lv = 1175
+								_G.Level = true
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
+							end
+						end
+					elseif replicated.Remotes.CommF_:InvokeServer("BuyGodhuman", true) == 3 then
+						return nil
+					else
+						replicated.Remotes.CommF_:InvokeServer("BuyGodhuman")
+					end
+				end
+			end)
+		end
+	end)
+	local SanguineArt = Tabs.Melee:AddToggle("SanguineArt", {
+		Title = "Auto SanguineArt",
+		Description = "",
+		Default = false
+	})
+	SanguineArt:OnChanged(function(Value)
+		_G.snaguine = Value
+	end)
+	spawn(function()
+		while wait(Sec) do
+			if _G.snaguine then
+				pcall(function()
+					if not GetBP("Sanguine Art") then
+						replicated.Remotes.CommF_:InvokeServer("Sanguine Art")
+					end
+					if not GetBP("Sanguine Art") then
+						if GetM("Leviathan Heart") >= 1 then
+							print("Completed!!")
+						else
+							if World3 then
+								_G.DangerSc = "Lv Infinite"
+								_G.SailBoats = true;
+							else
+								_G.SailBoats = false;
+							end
+						end
+						if GetM("Vampire Fang") <= 19 then
+							if World2 then
+								local n = GetConnectionEnemies("Vampire")
+								if n then
+									repeat
+										task.wait()
+										Attack.Kill(n, _G.snaguine)
+									until not _G.snaguine or n.Humanoid.Health <= 0 or not n.Parent
+								else
+									_tp(CFrame.new(-6041.29248046875, 6.402710914611816, -1304.63330078125))
+								end
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
+							end
+						end
+						if GetM("Vampire Fang") >= 20 and GetM("Demonic Wisp") <= 19 then
+							if World3 then
+								local n = GetConnectionEnemies("Demonic Soul")
+								if n then
+									repeat
+										task.wait()
+										Attack.Kill(n, _G.snaguine)
+									until not _G.snaguine or n.Humanoid.Health <= 0 or not n.Parent
+								else
+									_tp(CFrame.new(-9495.6806640625, 453.58624267578125, 5977.3486328125))
+								end
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelZou")
+							end
+						end
+						if GetM("Vampire Fang") >= 20 and GetM("Demonic Wisp") >= 20 and GetM("Dark Fragment") <= 1 then
+							if World2 then
+								local n = GetConnectionEnemies("Darkbeard")
+								if n then
+									repeat
+										task.wait()
+										Attack.Kill(black, _G.snaguine)
+									until _G.snaguine or black.Humanoid.Health <= 0 or not black.Parent
+								else
+									_tp(CFrame.new(3798.4575195313, 13.826690673828, -3399.806640625))
+								end
+							else
+								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
+							end
+						end
+					else
+						replicated.Remotes.CommF_:InvokeServer("BuySanguineArt")
+					end
+				end)
+			end
+		end
+	end)
 
 	Tabs.Quests:AddSection("Tushita + Yama")
 	local Process = Tabs.Quests:AddParagraph({
@@ -8438,65 +8928,6 @@ end)
 	Q:OnChanged(function(Value)
 		_G.SailBoats = Value
 	end)
-
--- *******************************************
--- INÍCIO DAS CORREÇÕES E ADIÇÕES:
-
-local SkillList = {"Z", "X", "C", "V", "F"} -- CORRIGIDO: Removido 'T', adicionado 'V' e 'F'
-
-local SelectSkills = Tabs.SeaEvent:AddDropdown("SelectSkills", {
-    Title = "Select Skill",
-    Description = "Choose which skills will be used automatically",
-    Values = SkillList,
-    Multi = true,
-    Default = {"Z", "X", "C"}
-})
-
-SelectSkills:OnChanged(function(Value)
-    _G.SelectedSkills = {}
-    for Skill, Enabled in pairs(Value) do
-        if Enabled then
-            table.insert(_G.SelectedSkills, Skill)
-        end
-    end
-    -- Opcional: Adicionar notificação aqui (depende da sua biblioteca Fluent)
-    -- Fluent:Notify({
-    --     Title = "Skills Updated",
-    --     Content = "Using: " .. (table.concat(_G.SelectedSkills, ", ") ~= "" and table.concat(_G.SelectedSkills, ", ") or "None"),
-    --     Duration = 3
-    -- })
-end)
-
--- Funçã auxiliar para atacar usando as skills selecionadas
-local function AttackWithSelectedSkills()
-    local skillsToUse = _G.SelectedSkills
-    -- Define um padrão se o _G.SelectedSkills não foi definido pelo dropdown ou está vazio
-    if not skillsToUse or #skillsToUse == 0 then
-        skillsToUse = {"Z", "X", "C"}
-    end
-
-    if CheckF() then
-        weaponSc("Blox Fruit")
-        for _, skill in ipairs(skillsToUse) do
-            Useskills("Blox Fruit", skill)
-            task.wait(0.12)
-        end
-    else
-        -- Tenta usar em sequência nas armas mais comuns (Melee, Sword, Blox Fruit, Gun)
-        local weaponsOrder = {"Melee", "Sword", "Blox Fruit", "Gun"}
-        for _, wp in ipairs(weaponsOrder) do
-            for _, skill in ipairs(skillsToUse) do
-                Useskills(wp, skill)
-                task.wait(0.12)
-            end
-            task.wait(0.06)
-        end
-    end
-end
-
--- FIM DAS CORREÇÕES E ADIÇÕES
--- *******************************************
-
 	spawn(function()
 		while wait() do
 			if _G.SailBoats then
@@ -8733,7 +9164,26 @@ end
 									if plr:DistanceFromCharacter(b.HumanoidRootPart.CFrame.Position) <= 500 then
 										AitSeaSkill_Custom = b.HumanoidRootPart.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										AttackWithSelectedSkills() -- Chamada da nova função
+										if CheckF() then
+											weaponSc("Blox Fruit")
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+										else
+											Useskills("Melee", "Z")
+											Useskills("Melee", "X")
+											Useskills("Melee", "C")
+											wait(.1)
+											Useskills("Sword", "Z")
+											Useskills("Sword", "X")
+											wait(.1)
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+											wait(.1)
+											Useskills("Gun", "Z")
+											Useskills("Gun", "X")
+										end
 									end
 								until _G.SeaBeast1 == false or not b:FindFirstChild("HumanoidRootPart") or not b.Parent or b.Health.Value <= 0
 							end
@@ -8751,7 +9201,26 @@ end
 									end)
 									if plr:DistanceFromCharacter(b.HumanoidRootPart.CFrame.Position) <= 500 then
 										MousePos = b:FindFirstChild("Leviathan Segment").Position;
-										AttackWithSelectedSkills() -- Chamada da nova função
+										if CheckF() then
+											weaponSc("Blox Fruit")
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+										else
+											Useskills("Melee", "Z")
+											Useskills("Melee", "X")
+											Useskills("Melee", "C")
+											wait(.1)
+											Useskills("Sword", "Z")
+											Useskills("Sword", "X")
+											wait(.1)
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+											wait(.1)
+											Useskills("Gun", "Z")
+											Useskills("Gun", "X")
+										end
 									end
 								until _G.Leviathan1 == false or not b:FindFirstChild("HumanoidRootPart") or not b.Parent or b.Health.Value <= 0
 							end
@@ -8772,7 +9241,26 @@ end
 									if plr:DistanceFromCharacter(b.Engine.CFrame.Position) <= 150 then
 										AitSeaSkill_Custom = b.Engine.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										AttackWithSelectedSkills() -- Chamada da nova função
+										if CheckF() then
+											weaponSc("Blox Fruit")
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+										else
+											Useskills("Melee", "Z")
+											Useskills("Melee", "X")
+											Useskills("Melee", "C")
+											wait(.1)
+											Useskills("Sword", "Z")
+											Useskills("Sword", "X")
+											wait(.1)
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+											wait(.1)
+											Useskills("Gun", "Z")
+											Useskills("Gun", "X")
+										end
 									end
 								until _G.FishBoat == false or not b:FindFirstChild("VehicleSeat") or b.Health.Value <= 0
 							end
@@ -8795,7 +9283,26 @@ end
 									if plr:DistanceFromCharacter(b.Engine.CFrame.Position) <= 150 then
 										AitSeaSkill_Custom = b.Engine.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										AttackWithSelectedSkills() -- Chamada da nova função
+										if CheckF() then
+											weaponSc("Blox Fruit")
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+										else
+											Useskills("Melee", "Z")
+											Useskills("Melee", "X")
+											Useskills("Melee", "C")
+											wait(.1)
+											Useskills("Sword", "Z")
+											Useskills("Sword", "X")
+											wait(.1)
+											Useskills("Blox Fruit", "Z")
+											Useskills("Blox Fruit", "X")
+											Useskills("Blox Fruit", "C")
+											wait(.1)
+											Useskills("Gun", "Z")
+											Useskills("Gun", "X")
+										end
 									end
 								until _G.PGB == false or not b:FindFirstChild("VehicleSeat") or b.Health.Value <= 0
 							end
@@ -9173,46 +9680,39 @@ spawn(function()
                         "Island 2",
                         "Island 1"
                     }
-
+                    
                     local foundEnemies = false
-
+                    
                     for _, island in ipairs(islands) do
                         local location = game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild(island)
                         if location then
-                            -- procura o inimigo mais próximo da ilha atual
-                            local closestEnemy
-                            local shortestDistance = 9999
-
-                            for _, v in pairs(workspace.Enemies:GetChildren()) do
+                            
+                            -- FARM HẾT TẤT CẢ QUÁI Ở ISLAND NÀY
+                            for i, v in pairs(workspace.Enemies:GetChildren()) do
                                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") then
                                     if v.Humanoid.Health > 0 then
                                         local distance = (v.HumanoidRootPart.Position - location.Position).Magnitude
-                                        if distance < 500 and distance < shortestDistance then
-                                            shortestDistance = distance
-                                            closestEnemy = v
+                                        if distance < 500 then
+                                            foundEnemies = true
+                                            repeat
+                                                wait()
+                                                Attack.Kill(v, _G.Raiding)
+                                            until not _G.Raiding or not v.Parent or v.Humanoid.Health <= 0
                                         end
                                     end
                                 end
                             end
-
-                            -- se achou inimigo, foca nele até morrer
-                            if closestEnemy then
-                                foundEnemies = true
-                                repeat
-                                    task.wait()
-                                    Attack.Kill(closestEnemy, _G.Raiding)
-                                until not _G.Raiding or not closestEnemy.Parent or closestEnemy.Humanoid.Health <= 0
-                            end
-
-                            -- se achou e matou um inimigo, volta pro começo pra checar novamente
+                            
+                            -- Nếu đã farm quái ở island này, break để check lại từ đầu
                             if foundEnemies then
                                 break
                             end
                         end
                     end
-
-                    -- se não tem inimigo em nenhuma ilha → pode mover pra próxima
+                    
+                    -- Set NextIs chỉ khi KHÔNG tìm thấy quái
                     NextIs = not foundEnemies
+                    
                 else
                     NextIs = false
                 end
@@ -10683,6 +11183,229 @@ end)
 		end
 	})
 	Tabs.Server:AddButton({
+		Title = "Criar Servidor Privado",
+		Description = "Cria Um Servidor Privado e Entra nele Automaticamente",
+		Callback = function()
+			task.spawn(function()
+				-- MD5 và các hàm hỗ trợ
+				local md5 = {}
+				local hmac = {}
+				local base64 = {}
+
+				do
+					do
+						local T = {
+							0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
+							0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
+							0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
+							0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821,
+							0xf61e2562, 0xc040b340, 0x265e5a51, 0xe9b6c7aa,
+							0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
+							0x21e1cde6, 0xc33707d6, 0xf4d50d87, 0x455a14ed,
+							0xa9e3e905, 0xfcefa3f8, 0x676f02d9, 0x8d2a4c8a,
+							0xfffa3942, 0x8771f681, 0x6d9d6122, 0xfde5380c,
+							0xa4beea44, 0x4bdecfa9, 0xf6bb4b60, 0xbebfbc70,
+							0x289b7ec6, 0xeaa127fa, 0xd4ef3085, 0x04881d05,
+							0xd9d4d039, 0xe6db99e5, 0x1fa27cf8, 0xc4ac5665,
+							0xf4292244, 0x432aff97, 0xab9423a7, 0xfc93a039,
+							0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1,
+							0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
+							0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391,
+						}
+
+						local function add(a, b)
+							local lsw = bit32.band(a, 0xFFFF) + bit32.band(b, 0xFFFF)
+							local msw = bit32.rshift(a, 16) + bit32.rshift(b, 16) + bit32.rshift(lsw, 16)
+							return bit32.bor(bit32.lshift(msw, 16), bit32.band(lsw, 0xFFFF))
+						end
+
+						local function rol(x, n)
+							return bit32.bor(bit32.lshift(x, n), bit32.rshift(x, 32 - n))
+						end
+
+						local function F(x, y, z)
+							return bit32.bor(bit32.band(x, y), bit32.band(bit32.bnot(x), z))
+						end
+						local function G(x, y, z)
+							return bit32.bor(bit32.band(x, z), bit32.band(y, bit32.bnot(z)))
+						end
+						local function H(x, y, z)
+							return bit32.bxor(x, bit32.bxor(y, z))
+						end
+						local function I(x, y, z)
+							return bit32.bxor(y, bit32.bor(x, bit32.bnot(z)))
+						end
+
+						function md5.sum(message)
+							local a, b, c, d = 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476
+							local message_len = #message
+							local padded_message = message .. "\128"
+							while #padded_message % 64 ~= 56 do
+								padded_message = padded_message .. "\0"
+							end
+
+							local len_bytes = ""
+							local len_bits = message_len * 8
+							for i = 0, 7 do
+								len_bytes = len_bytes .. string.char(bit32.band(bit32.rshift(len_bits, i * 8), 0xFF))
+							end
+							padded_message = padded_message .. len_bytes
+
+							for i = 1, #padded_message, 64 do
+								local chunk = padded_message:sub(i, i + 63)
+								local X = {}
+								for j = 0, 15 do
+									local b1, b2, b3, b4 = chunk:byte(j * 4 + 1, j * 4 + 4)
+									X[j] = bit32.bor(b1, bit32.lshift(b2, 8), bit32.lshift(b3, 16), bit32.lshift(b4, 24))
+								end
+
+								local aa, bb, cc, dd = a, b, c, d
+								local s = { 7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21 }
+
+								for j = 0, 63 do
+									local f, k, shift_index
+									if j < 16 then
+										f = F(b, c, d)
+										k = j
+										shift_index = j % 4
+									elseif j < 32 then
+										f = G(b, c, d)
+										k = (1 + 5 * j) % 16
+										shift_index = 4 + (j % 4)
+									elseif j < 48 then
+										f = H(b, c, d)
+										k = (5 + 3 * j) % 16
+										shift_index = 8 + (j % 4)
+									else
+										f = I(b, c, d)
+										k = (7 * j) % 16
+										shift_index = 12 + (j % 4)
+									end
+
+									local temp = add(a, f)
+									temp = add(temp, X[k])
+									temp = add(temp, T[j + 1])
+									temp = rol(temp, s[shift_index + 1])
+
+									local new_b = add(b, temp)
+									a, b, c, d = d, new_b, b, c
+								end
+
+								a = add(a, aa)
+								b = add(b, bb)
+								c = add(c, cc)
+								d = add(d, dd)
+							end
+
+							local function to_le_hex(n)
+								local s = ""
+								for i = 0, 3 do
+									s = s .. string.char(bit32.band(bit32.rshift(n, i * 8), 0xFF))
+								end
+								return s
+							end
+
+							return to_le_hex(a) .. to_le_hex(b) .. to_le_hex(c) .. to_le_hex(d)
+						end
+					end
+
+					do
+						function hmac.new(key, msg, hash_func)
+							if #key > 64 then
+								key = hash_func(key)
+							end
+
+							local o_key_pad = ""
+							local i_key_pad = ""
+							for i = 1, 64 do
+								local byte = (i <= #key and string.byte(key, i)) or 0
+								o_key_pad = o_key_pad .. string.char(bit32.bxor(byte, 0x5C))
+								i_key_pad = i_key_pad .. string.char(bit32.bxor(byte, 0x36))
+							end
+
+							return hash_func(o_key_pad .. hash_func(i_key_pad .. msg))
+						end
+					end
+
+					do
+						local b = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+						function base64.encode(data)
+							return (
+								(data:gsub(".", function(x)
+									local r, b_val = "", x:byte()
+									for i = 8, 1, -1 do
+										r = r .. (b_val % 2 ^ i - b_val % 2 ^ (i - 1) > 0 and "1" or "0")
+									end
+									return r
+								end) .. "0000"):gsub("%d%d%d?%d?%d?%d?", function(x)
+									if #x < 6 then
+										return ""
+									end
+									local c = 0
+									for i = 1, 6 do
+										c = c + (x:sub(i, i) == "1" and 2 ^ (6 - i) or 0)
+									end
+									return b:sub(c + 1, c + 1)
+								end) .. ({ "", "==", "=" })[#data % 3 + 1]
+							)
+						end
+					end
+				end
+
+				local function GenerateReservedServerCode(placeId)
+					local uuid = {}
+					for i = 1, 16 do
+						uuid[i] = math.random(0, 255)
+					end
+
+					uuid[7] = bit32.bor(bit32.band(uuid[7], 0x0F), 0x40)
+					uuid[9] = bit32.bor(bit32.band(uuid[9], 0x3F), 0x80)
+
+					local firstBytes = ""
+					for i = 1, 16 do
+						firstBytes = firstBytes .. string.char(uuid[i])
+					end
+
+					local gameCode = string.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x", table.unpack(uuid))
+
+					local placeIdBytes = ""
+					local pIdRec = placeId
+					for _ = 1, 8 do
+						placeIdBytes = placeIdBytes .. string.char(pIdRec % 256)
+						pIdRec = math.floor(pIdRec / 256)
+					end
+
+					local content = firstBytes .. placeIdBytes
+					local SUPERDUPERSECRETROBLOXKEYTHATTHEYDIDNTCHANGEEVERSINCEFOREVER = "e4Yn8ckbCJtw2sv7qmbg"
+					local signature = hmac.new(SUPERDUPERSECRETROBLOXKEYTHATTHEYDIDNTCHANGEEVERSINCEFOREVER, content, md5.sum)
+
+					local accessCodeBytes = signature .. content
+					local accessCode = base64.encode(accessCodeBytes)
+					accessCode = accessCode:gsub("+", "-"):gsub("/", "_")
+
+					local pdding = 0
+					accessCode, _ = accessCode:gsub("=", function()
+						pdding = pdding + 1
+						return ""
+					end)
+
+					accessCode = accessCode .. tostring(pdding)
+					return accessCode, gameCode
+				end
+
+				-- Chạy script
+				task.wait(1)
+				if #game.Players:GetPlayers() > 1 then
+					local accessCode, _ = GenerateReservedServerCode(game.PlaceId)
+					game.RobloxReplicatedStorage.ContactListIrisInviteTeleport:FireServer(game.PlaceId, "", accessCode)
+				else
+					warn("⚠️ Không chạy vì server chỉ có 1 người")
+				end
+			end)
+		end
+	})
+	Tabs.Server:AddButton({
 		Title = "Rejoin Server",
 		Description = "",
 		Callback = function()
@@ -10931,7 +11654,7 @@ end)
 		end
 	})
 	rtxM = Tabs.Misc:AddToggle("rtxM", {
-		Title = "RTX Mode",
+		Title = "Turn on RTX Mode",
 		Description = "",
 		Default = false
 	})
@@ -11010,50 +11733,20 @@ end)
 		end
 	})
 	Tabs.Misc:AddButton({
-    Title = "Nofog",
-    Description = "",
-    Callback = function()
-        if Lighting:FindFirstChild("LightingLayers") then
-            Lighting.LightingLayers:Destroy()
-        end
-        if Lighting:FindFirstChild("SeaTerrorCC") then
-            Lighting.SeaTerrorCC:Destroy()
-        end
-        if Lighting:FindFirstChild("FantasySky") then
-            Lighting.FantasySky:Destroy()
-        end
-    end
-})
-
-Tabs.Misc:AddButton({
-    Title = "Redeem Codes",
-    Description = "Resgatar todos os códigos.",
-    Callback = function()
-        local Codes = {
-            "KITT_RESET", "Sub2UncleKizaru", "SUB2GAMERROBOT_RESET1", "Sub2Fer999", "Enyu_is_Pro", "JCWK",
-            "StarcodeHEO", "MagicBus", "KittGaming", "Sub2CaptainMaui", "Sub2OfficalNoobie", "TheGreatAce",
-            "Sub2NoobMaster123", "Sub2Daigrock", "Axiore", "StrawHatMaine", "TantaiGaming", "Bluxxy",
-            "SUB2GAMERROBOT_EXP1", "Chandler", "NOMOREHACK", "BANEXPLOIT", "WildDares", "BossBuild",
-            "GetPranked", "EARN_FRUITS", "FIGHT4FRUIT", "NOEXPLOITER", "NOOB2ADMIN", "CODESLIDE", "ADMINHACKED",
-            "ADMINDARES", "fruitconcepts", "krazydares", "TRIPLEABUSE", "SEATROLLING", "24NOADMIN", "REWARDFUN",
-            "NEWTROLL", "fudd10_v2", "Fudd10", "Bignews", "SECRET_ADMIN"
-        }
-
-        local function RedeemAllCodes()
-            for _, code in ipairs(Codes) do
-                pcall(function()
-                    game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(code)
-                end)
-            end
-            -- Supondo que 'Fluent' exista no ambiente (como nos scripts anteriores)
-            if typeof(Fluent) == "table" and Fluent.Notify then
-                Fluent:Notify({ Title = "Codes", Content = "Códigos Resgatados", Duration = 4 })
-            end
-        end
-
-        RedeemAllCodes()
-    end
-})
+		Title = "Nofog",
+		Description = "",
+		Callback = function()
+			if Lighting:FindFirstChild("LightingLayers") then
+				Lighting.LightingLayers:Destroy()
+			end
+			if Lighting:FindFirstChild("SeaTerrorCC") then
+				Lighting.SeaTerrorCC:Destroy()
+			end
+			if Lighting:FindFirstChild("FantasySky") then
+				Lighting.FantasySky:Destroy()
+			end
+		end
+	})
 
 	Tabs.Misc:AddSection("Configure - God")
 	Tabs.Misc:AddButton({
@@ -11126,7 +11819,7 @@ Tabs.Misc:AddButton({
 		end
 	end)
 	walkWater = Tabs.Misc:AddToggle("walkWater", {
-		Title = "Walk on Water",
+		Title = "Turn on Walk on Water",
 		Description = "Andar Sobre a Água",
 		Default = true
 	})
@@ -11139,7 +11832,7 @@ Tabs.Misc:AddButton({
 		end
 	end)
 	iceWalk = Tabs.Misc:AddToggle("iceWalk", {
-		Title = "on Ice Walk",
+		Title = "Turn on Ice Walk",
 		Description = "Ice walk just like walk on water but have ice effect",
 		Default = false
 	})
