@@ -2079,8 +2079,13 @@ end)
 		end
 	end)
 	local Tabs = {
+	Info = Window:AddTab({
+		Title = "Information",
+		Icon = "info"
+	}),
+
 	Discord = Window:AddTab({
-		Title = "Home",
+		Title = "Discord",
 		Icon = "message-circle"
 	}),
 	Server = Window:AddTab({
@@ -2088,24 +2093,26 @@ end)
 		Icon = "server"
 	}),
 	Main = Window:AddTab({
-		Title = "Main",
-		Icon = "home"
+		Title = "Farming",
+		Icon = "sword"
 	}),
 	Settings = Window:AddTab({
 		Title = "Settings",
 		Icon = "settings"
 	}),
+	Melee = Window:AddTab({
+		Title = "Auto Get Fighting Style V2",
+		Icon = "swords"
+	}),
+	
 	Fruit = Window:AddTab({
 		Title = "Fruit",
 		Icon = "apple"
 	}),
+	
 	Quests = Window:AddTab({
-		Title = "Farm Outros",
+		Title = "Quests - Items",
 		Icon = "scroll"
-	}),
-	Fishing = Window:AddTab({
-		Title = "Fishing",
-		Icon = "anchor"
 	}),
 	SeaEvent = Window:AddTab({
 		Title = "Sea Events",
@@ -2137,159 +2144,14 @@ end)
 	}),
 	Shop = Window:AddTab({
 		Title = "Shop",
-		Icon = "shopping-cart"
+		Icon = "shopping-bag"
 	}),
 	Misc = Window:AddTab({
-		Title = "Misc",
+		Title = "Outros",
 		Icon = "package"
 	})
 }
 
--- ========================= [ Section Fishing ] =========================
-local Section = Tabs.Fishing:AddSection("Fishing System")
-
-local SelectedRod = "Fishing Rod"
-local SelectedBait = "Basic Bait"
-local AutoFishing = false
-
--- Dropdown Vara
-Tabs.Fishing:AddDropdown("RodSelect", {
-	Title = "Select Fishing Rod",
-	Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
-	Default = "Fishing Rod",
-	Callback = function(Value)
-		SelectedRod = Value
-	end
-})
-
--- Dropdown Isca
-Tabs.Fishing:AddDropdown("BaitSelect", {
-	Title = "Select Bait",
-	Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
-	Default = "Basic Bait",
-	Callback = function(Value)
-		SelectedBait = Value
-	end
-})
-
--- Toggle Auto Fishing
-Tabs.Fishing:AddToggle("AutoFishing", {
-	Title = "Auto Farm Fishing",
-	Default = false,
-	Callback = function(Value)
-		AutoFishing = Value
-		if Value then
-			StartFishingLoop()
-		end
-	end
-})
-
--- ========================= [ Sistema Fishing ] =========================
-local plr = game.Players.LocalPlayer
-local rep = game:GetService("ReplicatedStorage")
-
-local Modules = rep:WaitForChild("Modules")
-local Net = Modules:WaitForChild("Net")
-local FishReplicated = rep:WaitForChild("FishReplicated")
-local FishingRequest = FishReplicated:FindFirstChild("FishingRequest")
-local FishingClient = FishReplicated:WaitForChild("FishingClient")
-local Config = require(FishingClient:WaitForChild("Config"))
-local Util = rep:WaitForChild("Util")
-local GetWaterHeightAtLocation = require(Util:WaitForChild("GetWaterHeightAtLocation"))
-local CommF_ = Net:FindFirstChild("RF/JobsRemoteFunction")
-local CraftRF = Net:FindFirstChild("RF/Craft")
-
-local function EnsureRodAndBait()
-	pcall(function()
-		CommF_:InvokeServer("FishingNPC", "FirstTimeFreeRod")
-		if SelectedRod then
-			CommF_:InvokeServer("LoadItem", SelectedRod, {"Gear"})
-		end
-	end)
-	task.wait(0.5)
-
-	local Data = plr:FindFirstChild("Data") and plr.Data:FindFirstChild("FishingData")
-	if Data and (Data:GetAttribute("SelectedBait") == "None" or Data:GetAttribute("SelectedBait") == nil) then
-		local inv = CommF_:InvokeServer("getInventory")
-		for _, v in pairs(inv) do
-			if v.Type == "Bait" and v.Name == SelectedBait then
-				CommF_:InvokeServer("LoadItem", v.Name, {"Usables"})
-				return
-			end
-		end
-		if CraftRF and SelectedBait then
-			CraftRF:InvokeServer("Craft", SelectedBait)
-			task.wait(2)
-		end
-	end
-end
-
-local function EquipRod()
-	local char = plr.Character
-	if not char then return end
-	local hum = char:FindFirstChildOfClass("Humanoid")
-	if not char:FindFirstChild(SelectedRod) then
-		local Rod = plr.Backpack:FindFirstChild(SelectedRod)
-		if Rod and hum then
-			hum:EquipTool(Rod)
-			task.wait(0.3)
-		end
-	end
-end
-
-local function GetCastPosition()
-	local char = plr.Character
-	if not char then return end
-	local hrp = char:WaitForChild("HumanoidRootPart")
-	local direction = hrp.CFrame.LookVector * (Config.Rod.MaxLaunchDistance or 50)
-	local _, hitPos = workspace:FindPartOnRayWithIgnoreList(
-		Ray.new(char.Head.Position, direction),
-		{char, workspace.Characters, workspace.Enemies}
-	)
-	return hitPos or (hrp.Position + Vector3.new(0, -10, 0))
-end
-
-local function CastLine()
-	if not FishingRequest then return end
-	pcall(function()
-		FishingRequest:InvokeServer("StartCasting")
-		task.wait(0.7)
-		FishingRequest:InvokeServer("CastLineAtLocation", GetCastPosition(), 100, true)
-	end)
-end
-
-local function CatchFish()
-	if not FishingRequest then return end
-	pcall(function()
-		FishingRequest:InvokeServer("Catching", 1)
-		task.wait(0.25)
-		FishingRequest:InvokeServer("Catch", 1)
-	end)
-end
-
-function StartFishingLoop()
-	task.spawn(function()
-		while AutoFishing do
-			task.wait(0.5)
-			pcall(function()
-				local char = plr.Character or plr.CharacterAdded:Wait()
-				if not char then return end
-				EnsureRodAndBait()
-				EquipRod()
-
-				local RodTool = char:FindFirstChild(SelectedRod)
-				if RodTool then
-					local state = RodTool:GetAttribute("ServerState") or RodTool:GetAttribute("State")
-					if state == "Biting" then
-						CatchFish()
-					elseif state == "ReeledIn" or state == "Idle" or not state then
-						CastLine()
-					end
-				end
-			end)
-		end
-	end)
-end
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local plr = Players.LocalPlayer
@@ -2441,113 +2303,19 @@ task.spawn(function()
     end
 end)
 
--- Section Home
-local HomeSection = Tabs.Discord:AddSection("Home")
-
--- Paragraph de tempo
-local TempoParagraph = HomeSection:AddParagraph({
-	Title = "Tempo de execução:",
-	Content = "0 segundos"
+-- 💬 Parágrafo único na aba Information
+Tabs.Info:AddParagraph({
+	Title = "Leia Por Favor",
+	Content = "Esse Script Contém Alguns Bugs, Em Breve Vamos Tentar Arrumar"
 })
 
--- Paragraph de boas-vindas
-HomeSection:AddParagraph({
-	Title = "Bem-vindo!",
-	Content = "Espero que goste do nosso script :3"
-})
-
--- Section Discord
-local DiscordSection = Tabs.Discord:AddSection("Discord")
-
--- Botão do Discord
-DiscordSection:AddButton({
-	Title = "Nosso Servidor do Discord",
-	Callback = function()
-		setclipboard("https://discord.gg/nightshadow")
-	end
-})
-
--- Sistema de contador de tempo
-local startTime = tick()
-spawn(function()
-	while task.wait(1) do
-		local elapsed = math.floor(tick() - startTime)
-
-		pcall(function()
-			if TempoParagraph.UpdateContent then
-				TempoParagraph:UpdateContent(tostring(elapsed) .. " segundos")
-			elseif TempoParagraph.Update then
-				TempoParagraph:Update(tostring(elapsed) .. " segundos")
-			elseif TempoParagraph.SetContent then
-				TempoParagraph:SetContent(tostring(elapsed) .. " segundos")
-			else
-				TempoParagraph:Destroy()
-				TempoParagraph = HomeSection:AddParagraph({
-					Title = "Tempo de execução:",
-					Content = tostring(elapsed) .. " segundos"
-				})
-			end
-		end)
-	end
-end)
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local plr = Players.LocalPlayer
-
-if World3 then
-    Tabs.Main:AddSection("Farm")
-
-    --  Sistema de seleção de arma (substitui o botão de teleporte)
-    local _Weapon = {
-        "Melee",
-        "Sword",
-        "Blox Fruit",
-        "Gun"
-    }
-
-    local Weapon_Config = Tabs.Main:AddDropdown("Weapon_Config", {
-        Title = "Weapons",
-        Values = _Weapon,
-        Multi = false,
-        Default = 1
-    })
-
-    Weapon_Config:OnChanged(function(Value)
-        _G.ChooseWP = Value
-    end)
-
-    spawn(function()
-        while wait(Sec) do
-            pcall(function()
-                if _G.ChooseWP == "Melee" then
-                    for _, v in pairs(plr.Backpack:GetChildren()) do
-                        if v.ToolTip == "Melee" then
-                            _G.SelectWeapon = v.Name
-                        end
-                    end
-                elseif _G.ChooseWP == "Sword" then
-                    for _, v in pairs(plr.Backpack:GetChildren()) do
-                        if v.ToolTip == "Sword" then
-                            _G.SelectWeapon = v.Name
-                        end
-                    end
-                elseif _G.ChooseWP == "Gun" then
-                    for _, v in pairs(plr.Backpack:GetChildren()) do
-                        if v.ToolTip == "Gun" then
-                            _G.SelectWeapon = v.Name
-                        end
-                    end
-                elseif _G.ChooseWP == "Blox Fruit" then
-                    for _, v in pairs(plr.Backpack:GetChildren()) do
-                        if v.ToolTip == "Blox Fruit" then
-                            _G.SelectWeapon = v.Name
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-end
+	Tabs.Discord:AddButton({
+		Title = "Link Join Sever Discord",
+		Description = "Nosso Servidor do discord",
+		Callback = function()
+			setclipboard(tostring("https://discord.gg/XCVgHb7JN"))
+		end
+	})
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local Players = game:GetService("Players")
 	if World3 then
@@ -8928,6 +8696,65 @@ end)
 	Q:OnChanged(function(Value)
 		_G.SailBoats = Value
 	end)
+
+-- *******************************************
+-- INÍCIO DAS CORREÇÕES E ADIÇÕES:
+
+local SkillList = {"Z", "X", "C", "V", "F"} -- CORRIGIDO: Removido 'T', adicionado 'V' e 'F'
+
+local SelectSkills = Tabs.SeaEvent:AddDropdown("SelectSkills", {
+    Title = "Select Skill",
+    Description = "Choose which skills will be used automatically",
+    Values = SkillList,
+    Multi = true,
+    Default = {"Z", "X", "C"}
+})
+
+SelectSkills:OnChanged(function(Value)
+    _G.SelectedSkills = {}
+    for Skill, Enabled in pairs(Value) do
+        if Enabled then
+            table.insert(_G.SelectedSkills, Skill)
+        end
+    end
+    -- Opcional: Adicionar notificação aqui (depende da sua biblioteca Fluent)
+    -- Fluent:Notify({
+    --     Title = "Skills Updated",
+    --     Content = "Using: " .. (table.concat(_G.SelectedSkills, ", ") ~= "" and table.concat(_G.SelectedSkills, ", ") or "None"),
+    --     Duration = 3
+    -- })
+end)
+
+-- Funçã auxiliar para atacar usando as skills selecionadas
+local function AttackWithSelectedSkills()
+    local skillsToUse = _G.SelectedSkills
+    -- Define um padrão se o _G.SelectedSkills não foi definido pelo dropdown ou está vazio
+    if not skillsToUse or #skillsToUse == 0 then
+        skillsToUse = {"Z", "X", "C"}
+    end
+
+    if CheckF() then
+        weaponSc("Blox Fruit")
+        for _, skill in ipairs(skillsToUse) do
+            Useskills("Blox Fruit", skill)
+            task.wait(0.12)
+        end
+    else
+        -- Tenta usar em sequência nas armas mais comuns (Melee, Sword, Blox Fruit, Gun)
+        local weaponsOrder = {"Melee", "Sword", "Blox Fruit", "Gun"}
+        for _, wp in ipairs(weaponsOrder) do
+            for _, skill in ipairs(skillsToUse) do
+                Useskills(wp, skill)
+                task.wait(0.12)
+            end
+            task.wait(0.06)
+        end
+    end
+end
+
+-- FIM DAS CORREÇÕES E ADIÇÕES
+-- *******************************************
+
 	spawn(function()
 		while wait() do
 			if _G.SailBoats then
@@ -9164,26 +8991,7 @@ end)
 									if plr:DistanceFromCharacter(b.HumanoidRootPart.CFrame.Position) <= 500 then
 										AitSeaSkill_Custom = b.HumanoidRootPart.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										if CheckF() then
-											weaponSc("Blox Fruit")
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-										else
-											Useskills("Melee", "Z")
-											Useskills("Melee", "X")
-											Useskills("Melee", "C")
-											wait(.1)
-											Useskills("Sword", "Z")
-											Useskills("Sword", "X")
-											wait(.1)
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-											wait(.1)
-											Useskills("Gun", "Z")
-											Useskills("Gun", "X")
-										end
+										AttackWithSelectedSkills() -- Chamada da nova função
 									end
 								until _G.SeaBeast1 == false or not b:FindFirstChild("HumanoidRootPart") or not b.Parent or b.Health.Value <= 0
 							end
@@ -9201,26 +9009,7 @@ end)
 									end)
 									if plr:DistanceFromCharacter(b.HumanoidRootPart.CFrame.Position) <= 500 then
 										MousePos = b:FindFirstChild("Leviathan Segment").Position;
-										if CheckF() then
-											weaponSc("Blox Fruit")
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-										else
-											Useskills("Melee", "Z")
-											Useskills("Melee", "X")
-											Useskills("Melee", "C")
-											wait(.1)
-											Useskills("Sword", "Z")
-											Useskills("Sword", "X")
-											wait(.1)
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-											wait(.1)
-											Useskills("Gun", "Z")
-											Useskills("Gun", "X")
-										end
+										AttackWithSelectedSkills() -- Chamada da nova função
 									end
 								until _G.Leviathan1 == false or not b:FindFirstChild("HumanoidRootPart") or not b.Parent or b.Health.Value <= 0
 							end
@@ -9241,26 +9030,7 @@ end)
 									if plr:DistanceFromCharacter(b.Engine.CFrame.Position) <= 150 then
 										AitSeaSkill_Custom = b.Engine.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										if CheckF() then
-											weaponSc("Blox Fruit")
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-										else
-											Useskills("Melee", "Z")
-											Useskills("Melee", "X")
-											Useskills("Melee", "C")
-											wait(.1)
-											Useskills("Sword", "Z")
-											Useskills("Sword", "X")
-											wait(.1)
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-											wait(.1)
-											Useskills("Gun", "Z")
-											Useskills("Gun", "X")
-										end
+										AttackWithSelectedSkills() -- Chamada da nova função
 									end
 								until _G.FishBoat == false or not b:FindFirstChild("VehicleSeat") or b.Health.Value <= 0
 							end
@@ -9283,26 +9053,7 @@ end)
 									if plr:DistanceFromCharacter(b.Engine.CFrame.Position) <= 150 then
 										AitSeaSkill_Custom = b.Engine.CFrame;
 										MousePos = AitSeaSkill_Custom.Position;
-										if CheckF() then
-											weaponSc("Blox Fruit")
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-										else
-											Useskills("Melee", "Z")
-											Useskills("Melee", "X")
-											Useskills("Melee", "C")
-											wait(.1)
-											Useskills("Sword", "Z")
-											Useskills("Sword", "X")
-											wait(.1)
-											Useskills("Blox Fruit", "Z")
-											Useskills("Blox Fruit", "X")
-											Useskills("Blox Fruit", "C")
-											wait(.1)
-											Useskills("Gun", "Z")
-											Useskills("Gun", "X")
-										end
+										AttackWithSelectedSkills() -- Chamada da nova função
 									end
 								until _G.PGB == false or not b:FindFirstChild("VehicleSeat") or b.Health.Value <= 0
 							end
@@ -9312,7 +9063,6 @@ end)
 			end)
 		end
 	end)
-
 	Tabs.SeaEvent:AddSection("Kitsune Island / Event")
 	local Check_Kitsu = Tabs.SeaEvent:AddParagraph({
 		Title = " Kitsune Island Status ",
@@ -9680,39 +9430,46 @@ spawn(function()
                         "Island 2",
                         "Island 1"
                     }
-                    
+
                     local foundEnemies = false
-                    
+
                     for _, island in ipairs(islands) do
                         local location = game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild(island)
                         if location then
-                            
-                            -- FARM HẾT TẤT CẢ QUÁI Ở ISLAND NÀY
-                            for i, v in pairs(workspace.Enemies:GetChildren()) do
+                            -- procura o inimigo mais próximo da ilha atual
+                            local closestEnemy
+                            local shortestDistance = 9999
+
+                            for _, v in pairs(workspace.Enemies:GetChildren()) do
                                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") then
                                     if v.Humanoid.Health > 0 then
                                         local distance = (v.HumanoidRootPart.Position - location.Position).Magnitude
-                                        if distance < 500 then
-                                            foundEnemies = true
-                                            repeat
-                                                wait()
-                                                Attack.Kill(v, _G.Raiding)
-                                            until not _G.Raiding or not v.Parent or v.Humanoid.Health <= 0
+                                        if distance < 500 and distance < shortestDistance then
+                                            shortestDistance = distance
+                                            closestEnemy = v
                                         end
                                     end
                                 end
                             end
-                            
-                            -- Nếu đã farm quái ở island này, break để check lại từ đầu
+
+                            -- se achou inimigo, foca nele até morrer
+                            if closestEnemy then
+                                foundEnemies = true
+                                repeat
+                                    task.wait()
+                                    Attack.Kill(closestEnemy, _G.Raiding)
+                                until not _G.Raiding or not closestEnemy.Parent or closestEnemy.Humanoid.Health <= 0
+                            end
+
+                            -- se achou e matou um inimigo, volta pro começo pra checar novamente
                             if foundEnemies then
                                 break
                             end
                         end
                     end
-                    
-                    -- Set NextIs chỉ khi KHÔNG tìm thấy quái
+
+                    -- se não tem inimigo em nenhuma ilha → pode mover pra próxima
                     NextIs = not foundEnemies
-                    
                 else
                     NextIs = false
                 end
