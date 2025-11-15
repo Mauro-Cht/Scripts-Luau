@@ -3756,25 +3756,21 @@ local v495 = v466:MakeTab({"Shop", "shoppingCart"})
 local v496 = v466:MakeTab({"Settings", "settings"})
 v484:AddDiscordInvite({
     Name = "Tham Gia Discord",
-    Description = "Link Sever Discord",
     Logo = "rbxassetid://110657725541747",
     Invite = "https://discord.gg/kK2vMrUsQy"
 })
 v484:AddDiscordInvite({
     Name = "Tu\225\186\165n Anh (T\195\186nnAngg)",
-    Description = "Facebook C\225\187\167a B\225\187\145 \196\144\195\162y Nh\195\179c",
     Logo = "rbxassetid://110657725541747",
     Invite = "https://www.facebook.com/tuananhiosdz"
 })
 v484:AddDiscordInvite({
     Name = "Tu\225\186\165n Anh IOS",
-    Description = "YouTube C\225\187\167a B\225\187\145 \196\144\195\162y Nh\195\179c",
     Logo = "rbxassetid://110657725541747",
     Invite = "https://www.youtube.com/@tuananhios"
 })
 v484:AddDiscordInvite({
     Name = "Tu\225\186\165n Anh IOS",
-    Description = "TikTok C\225\187\167a B\225\187\145 \196\144\195\162y Nh\195\179c",
     Logo = "rbxassetid://110657725541747",
     Invite = "https://www.tiktok.com/@tuananh_ios?_t=ZS-8z2MDp8Jn67&_r=1"
 })
@@ -3817,7 +3813,6 @@ task.spawn(function()
 end)
 local _ = v485:AddDropdown({
     Name = "Ch\225\187\141n C\195\180ng C\225\187\165",
-    Description = "Ch\225\187\141n c\195\180ng c\225\187\165 b\225\186\161n mu\225\187\145n s\225\187\173 d\225\187\165ng",
     Options = {"Melee", "Sword", "Gun", "Blox Fruit"},
     Default = "Melee",
     Flag = "WeaponType",
@@ -3828,7 +3823,6 @@ local _ = v485:AddDropdown({
 local _ = v485:AddSection({"Main Farm"})
 v485:AddToggle({
     Name = "Auto Farm Level 1-2650",
-    Description = "T\225\187\177 \196\145\225\187\153ng farm c\225\186\165p",
     Default = false,
     Callback = function(v509)
         _G.AutoFarm = v509
@@ -3935,7 +3929,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Title = "Farm Level New 2650 - 2750",
-    Description = "C\195\160y C\225\186\165p \225\187\158 \196\144\225\186\163o M\225\187\155i",
     Value = false,
     Callback = function(v515)
         _G.AutoFarmLevelNew = v515
@@ -4024,7 +4017,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Auto Kill Near | Mob Aura",
-    Description = "\196\144\195\161nh Qu\195\161i G\225\186\167n",
     Default = false,
     Callback = function(v520)
         _G.AutoNear = v520
@@ -4061,7 +4053,6 @@ end)
 local _ = v485:AddSection({"Farm Summer Token New"})
 v485:AddToggle({
     Name = "Auto Farm Summer Token",
-    Description = "T\225\187\177 \196\144\225\187\153ng Di Chuy\225\187\131n \196\144\225\186\191n V\225\187\139 Tr\195\173 Summer Token Theo Sea V\195\160 Farm Qu\195\161i [Electrified]",
     Default = false,
     Callback = function(v524)
         _G.FarmSummer = v524
@@ -4177,7 +4168,6 @@ elseif World3 then
 end
 v485:AddDropdown({
     Name = "Auto Select Boss",
-    Description = "Ch\225\187\141n Boss C\225\186\167n Farm",
     Options = v537,
     Default = v537[1],
     Callback = function(v538)
@@ -4186,7 +4176,6 @@ v485:AddDropdown({
 })
 v485:AddToggle({
     Name = "Farm Boss Pain",
-    Description = "Farm Boss \196\144\195\163 Ch\225\187\141n",
     Default = false,
     Callback = function(v539)
         _G.BossPain = v539
@@ -4224,7 +4213,6 @@ end)
 local _ = v485:AddSection({"AutoRaidPirate"})
 v485:AddToggle({
     Name = "Farm Pirate",
-    Description = "\196\144\195\161nh H\225\186\163i T\225\186\183c Tr\195\170n Ph\195\161o \196\144\195\160i Bi\225\187\131n",
     Default = false,
     Callback = function(v543)
         _G.AutoRaidPirate = v543
@@ -4285,7 +4273,6 @@ task.spawn(function()
 end)
 v485:AddToggle({
     Name = "Auto Farm Tyrant",
-    Description = "Farm Qu\195\161i V\195\160 \196\144\195\161nh Boss Chim",
     Default = false,
     Callback = function(v553)
         _G.FarmDaiBan = v553
@@ -4387,7 +4374,6 @@ task.spawn(function()
 end)
 v485:AddToggle({
     Name = "Summon Tyrant Of The Skies",
-    Description = "T\225\187\177 \196\144\225\187\153ng Ph\195\161 B\195\172nh \196\144\225\187\131 Tri\225\187\135u H\225\187\147i Boss",
     Default = false,
     Callback = function(v564)
         _G.Farm8Binhs = v564
@@ -4525,7 +4511,6 @@ task.spawn(function()
 end)
 v485:AddToggle({
     Name = "Fram Bone",
-    Description = "Fram S\198\176\198\161ng",
     Default = false,
     Callback = function(v591)
         _G.FarmBone = v591
@@ -4598,7 +4583,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Seperator Hallow Scythe",
-    Description = "Tri\225\187\135u h\225\187\147i v\195\160 ti\195\170u di\225\187\135t Soul Reaper",
     Default = false,
     Callback = function(v599)
         _G.Hallow = v599
@@ -4641,7 +4625,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Trade Bone",
-    Description = "T\225\187\177 \196\145\225\187\153ng \196\145\225\187\149i x\198\176\198\161ng l\225\186\165y ph\225\186\167n th\198\176\225\187\159ng",
     Default = false,
     Callback = function(v602)
         _G.Rdbone = v602
@@ -4657,7 +4640,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Auto Pray",
-    Description = "",
     Default = false,
     Callback = function(v603)
         _G.Pray = v603
@@ -4677,7 +4659,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Auto Try Luck",
-    Description = "",
     Default = false,
     Callback = function(v604)
         _G.Trylux = v604
@@ -4717,7 +4698,6 @@ task.spawn(function()
 end)
 v485:AddToggle({
     Name = "Farm Katakuri",
-    Description = "Fram Qu\195\161i V\195\160 \196\144\195\161nh Ho\195\160ng T\225\187\173 B\225\187\153t V1",
     Default = false,
     Callback = function(v608)
         _G.FarmCake = v608
@@ -4821,7 +4801,6 @@ task.spawn(function()
 end)
 v485:AddToggle({
     Name = "Farm Katakuri V2",
-    Description = "Fram Qu\195\161i V\195\160 \196\144\195\161nh Ho\195\160ng T\225\187\173 B\225\187\153t V2",
     Default = false,
     Callback = function(v619)
         _G.Fullykatakuri = v619
@@ -4934,7 +4913,6 @@ end)
 local _ = v485:AddSection({"Auto Farm Chest And Berry"})
 v485:AddToggle({
     Name = "Auto Collect Berry",
-    Description = "T\225\187\177 \196\145\225\187\153ng Nh\225\186\183t Berry",
     Default = false,
     Callback = function(v628)
         _G.CollectBerry = v628
@@ -4982,7 +4960,6 @@ spawn(function()
 end)
 v485:AddToggle({
     Name = "Auto Farm Chest [ Tween ]",
-    Description = "T\225\187\177 \196\145\225\187\153ng Nh\225\186\183t r\198\176\198\161ng b\225\186\177ng tween",
     Default = false,
     Callback = function(v644)
         _G.FarmChest = v644
@@ -5017,7 +4994,6 @@ end)
 local _ = v485:AddSection({"Boss Fram"})
 v485:AddButton({
     Name = "C\225\186\173p Nh\225\186\173t Boss",
-    Description = "L\195\160m m\225\187\155i danh s\195\161ch boss",
     Callback = function()
         -- empty block
     end
@@ -5084,7 +5060,6 @@ else
 end
 v485:AddDropdown({
     Name = "Auto Select Boss",
-    Description = "Ch\225\187\141n Boss C\225\186\167n Farm",
     Options = v658,
     Default = v658[1],
     Callback = function(v659)
@@ -5093,7 +5068,6 @@ v485:AddDropdown({
 })
 v485:AddToggle({
     Name = "Farm Boss",
-    Description = "Farm Boss \196\144\195\163 Ch\225\187\141n",
     Default = false,
     Callback = function(v660)
         _G.AutoBoss = v660
@@ -5217,7 +5191,6 @@ function getConfigMaterial(v665)
 end
 v485:AddDropdown({
     Name = "Select Material",
-    Description = "Ch\225\187\141n v\225\186\173t ph\225\186\169m c\225\186\167n farm",
     Options = v664,
     Default = v664[1],
     Callback = function(v666)
@@ -5226,7 +5199,6 @@ v485:AddDropdown({
 })
 v485:AddToggle({
     Name = "Start Farm",
-    Description = "T\225\187\177 \196\145\225\187\153ng farm material \196\145\195\163 ch\225\187\141n",
     Default = false,
     Callback = function(v667)
         _G.AutoFarmMaterial = v667
@@ -5267,7 +5239,6 @@ end)
 local _ = v486:AddSection({"Auto Fishing |  T\225\187\177 \196\144\225\187\153ng C\195\162u C\195\161"})
 v486:AddToggle({
     Title = "Auto Fishing",
-    Description = "T\225\187\177 \196\144\225\187\153ng C\195\162u C\195\161 Xo\195\161 Hi\225\187\135u \225\187\168ng Khi C\195\162u",
     Default = false,
     Callback = function(v673)
         _G.AutoFishing = v673
@@ -5315,7 +5286,6 @@ task.spawn(function()
 end)
 v486:AddDropdown({
     Name = "Select Fishing Lure",
-    Description = "T\225\187\177 \196\144\225\187\153ng Ch\225\187\141n M\225\187\147i Khi C\195\162u C\195\161",
     Options = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
     Default = "Basic Bait",
     Callback = function(v690)
@@ -5325,7 +5295,6 @@ v486:AddDropdown({
 })
 v486:AddDropdown({
     Name = "Select Fishing Rod",
-    Description = "T\225\187\177 \196\144\225\187\153ng Ch\225\187\141n C\225\186\167n C\195\162u Khi C\195\162u C\195\161",
     Options = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
     Default = "Fishing Rod",
     Callback = function(v691)
@@ -5336,7 +5305,6 @@ if World1 then
     local _ = v487:AddSection({"Quest Sea 1"})
     v487:AddToggle({
         Name = "AutoSecondSea",
-        Description = "T\225\187\177 \196\145\225\187\153ng Auto Quest Sea 2",
         Default = false,
         Callback = function(v693)
             _G.AutoSecondSea = v693
@@ -5394,7 +5362,6 @@ if World1 then
     local _ = v487:AddSection({"Boss Greybeard"})
     v487:AddToggle({
         Name = "Kill Greybeard",
-        Description = "T\225\187\177 \196\145\225\187\153ng \196\144\195\161nh Greybeard",
         Default = false,
         Callback = function(v698)
             _G.Greybeard = v698
@@ -5439,7 +5406,6 @@ if World1 then
     local _ = v487:AddSection({"Quest Sword"})
     v487:AddToggle({
         Name = "Auto Get Saber",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Ki\225\186\191m Saber",
         Default = false,
         Callback = function(v702)
             _G.AutoSaber = v702
@@ -5546,7 +5512,6 @@ if World1 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Pole",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Ki\225\186\191m Pole",
         Default = false,
         Callback = function(v707)
             _G.Autopole = v707
@@ -5582,7 +5547,6 @@ if World1 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Saw",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Ki\225\186\191m Saw",
         Default = false,
         Callback = function(v710)
             _G.Autosaw = v710
@@ -5633,7 +5597,6 @@ if World1 then
         end)
         v487:AddToggle({
             Name = "Auto Get Sword Wardens",
-            Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Ki\225\186\191m Wardens",
             Default = false,
             Callback = function(v715)
                 _G.ChiefWarden = v715
@@ -5669,7 +5632,6 @@ if World1 then
         end)
         v487:AddToggle({
             Name = "Auto Get Sword Trident",
-            Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Ki\225\186\191m Trident",
             Default = false,
             Callback = function(v718)
                 _G.Trident = v718
@@ -5709,7 +5671,6 @@ if World2 then
     local _ = v487:AddSection({"Quest Sea 2"})
     v487:AddToggle({
         Name = "Auto Quest Sea Bartilo",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\195\160m Nhi\225\187\135m V\225\187\165 Sea Bartilo",
         Default = false,
         Callback = function(v722)
             _G.AutoBartilo = v722
@@ -5850,7 +5811,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Quest Sea 3",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\195\160m Nhi\225\187\135m V\225\187\165 Sang Sea 3",
         Default = false,
         Callback = function(v728)
             _G.ThirdSea = v728
@@ -5903,7 +5863,6 @@ if World2 then
     local _ = v487:AddSection({"Factory Sea 2"})
     v487:AddToggle({
         Name = "Auto Factory",
-        Description = "T\225\187\177 \196\145\225\187\153ng \196\144\195\161nh Nh\195\160 M\195\161y",
         Default = false,
         Callback = function(v732)
             _G.AutoFactory = v732
@@ -5937,7 +5896,6 @@ if World2 then
     local _ = v487:AddSection({"Boss Dark Beard"})
     v487:AddToggle({
         Name = "Auto Kill Dark Beard",
-        Description = "T\225\187\177 \196\145\225\187\153ng \196\144\195\161nh R\195\162u \196\144en",
         Default = false,
         Callback = function(v736)
             _G.AutoDarkBoss = v736
@@ -5975,7 +5933,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Kill Cursed Captain",
-        Description = "T\225\187\177 \196\145\225\187\153ng \196\144\195\161nh Cursed Captain",
         Default = false,
         Callback = function(v739)
             _G.CursedCaptain = v739
@@ -6014,7 +5971,6 @@ if World2 then
     local _ = v487:AddSection({"Auto Buy Haki M\195\160u"})
     v487:AddToggle({
         Name = "Auto Buy Haki Colors",
-        Description = "T\225\187\177 \196\145\225\187\153ng Mua Haki",
         Default = false,
         Callback = function(v743)
             _G.AutoBuyEnchancementColour = v743
@@ -6053,7 +6009,6 @@ if World2 then
     local _ = v487:AddSection({"Quest Sword"})
     v487:AddToggle({
         Name = "Auto Get Longsword",
-        Description = "T\225\187\177 \196\145\225\187\153ng Get Longsword",
         Default = false,
         Callback = function(v750)
             _G.Longsword = v750
@@ -6089,7 +6044,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Gravity Blade",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Gravity Blade",
         Default = false,
         Callback = function(v753)
             _G.GravityBlade = v753
@@ -6127,7 +6081,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Flail",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Flail",
         Default = false,
         Callback = function(v756)
             _G.SwodsFlail = v756
@@ -6163,7 +6116,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Rengoku",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Rengoku",
         Default = false,
         Callback = function(v759)
             _G.AutoRengoku = v759
@@ -6205,7 +6157,6 @@ if World2 then
     end)
     v487:AddToggle({
         Name = "Auto Get Sword Dragon Trident",
-        Description = "T\225\187\177 \196\145\225\187\153ng L\225\186\165y Dragon Trident",
         Default = false,
         Callback = function(v762)
             _G.SwodsDRTrident = v762
@@ -6245,7 +6196,6 @@ if World3 then
     local _ = v487:AddSection({"Boss Rip indra"})
     v487:AddToggle({
         Name = "Auto kill Rip Indra",
-        Description = "T\225\187\177 \196\145\225\187\153ng \196\144\195\161nh Rip Indra",
         Default = false,
         Callback = function(v767)
             _G.RipIndraKill = v767
@@ -6305,7 +6255,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Haki Colors",
-            Description = "T\225\187\177 \196\144\225\187\153ng Haki Colors",
             Default = false,
             Callback = function(v775)
                 _G.RipIndraKill = v775
@@ -6323,7 +6272,6 @@ if World3 then
         local _ = v487:AddSection({"Quest Skull Guitar"})
         v487:AddToggle({
             Name = "Auto Skull Guitar",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y \196\144\195\160n GuiTar",
             Default = false,
             Callback = function(v778)
                 _G.AutoSkullGuitar = v778
@@ -6420,7 +6368,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Kill Elite Hunter",
-            Description = "T\225\187\177 \196\144\225\187\153ng \196\144\195\161nh Elite Hunter",
             Default = false,
             Callback = function(v793)
                 _G.AutoElitehunter = v793
@@ -6474,7 +6421,6 @@ if World3 then
         local _ = v487:AddSection({"Auto CDK"})
         v487:AddToggle({
             Name = "Auto Cdk [Beta]",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Xong Ki\225\186\191m \195\148 \196\144en",
             Default = false,
             Callback = function(v797)
                 _G.AutoGetCDK = v797
@@ -6544,7 +6490,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Get Yama",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Ki\225\186\191m Yama",
             Default = false,
             Callback = function(v807)
                 _G.AutoYama = v807
@@ -6563,7 +6508,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Holy Torch Tushita",
-            Description = "T\225\187\177 \196\144\225\187\153ng Torch Tushita",
             Default = false,
             Callback = function(v808)
                 _G.AutoHolyTorch = v808
@@ -6609,7 +6553,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Get Tushita",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Tushita",
             Default = false,
             Callback = function(v809)
                 _G.AutoGetTushita = v809
@@ -6646,7 +6589,6 @@ if World3 then
         local _ = v487:AddSection({"Quest Sword"})
         v487:AddToggle({
             Name = "Auto Get Sword Twin Hooks",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Ki\225\186\191m Twin Hooks",
             Default = false,
             Callback = function(v813)
                 _G.SwodTwinHooks = v813
@@ -6684,7 +6626,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Get Sword Canvander",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Ki\225\186\191m Canvander",
             Default = false,
             Callback = function(v816)
                 _G.SwodCanvander = v816
@@ -6720,7 +6661,6 @@ if World3 then
         end)
         v487:AddToggle({
             Name = "Auto Get Sword Buddy",
-            Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Ki\225\186\191m Buddy",
             Default = false,
             Callback = function(v819)
                 _G.SwodsBuddy = v819
@@ -6768,7 +6708,6 @@ v488:AddButton({
 })
 v488:AddToggle({
     Name = "Auto Dragon Huntery",
-    Description = "T\225\187\177 \196\144\225\187\153ng Farm Blaze",
     Default = false,
     Callback = function(v822)
         _G.FarmBlazeEM = v822
@@ -6912,7 +6851,6 @@ task.spawn(function()
 end)
 v488:AddToggle({
     Name = "Auto Find Prehistoric",
-    Description = "T\225\187\177 \196\144\225\187\153ng T\195\172m \196\144\225\186\163o Th\225\187\157i Ti\225\187\129n S\225\187\173 ( \196\144\225\186\163o N\195\186i L\225\187\173a )",
     Default = false,
     Callback = function(v851)
         _G.Nocliprock = v851
@@ -7024,7 +6962,6 @@ l_RunService_0.RenderStepped:Connect(function()
 end)
 v488:AddToggle({
     Name = "Auto Tween Prehistoric Island",
-    Description = "T\225\187\177 \196\144\225\187\153ng Bay V\195\160o \196\144\225\186\163o N\195\186i L\225\187\173a Volcano",
     Default = false,
     Callback = function(v882)
         _G.TweenVolcano = v882
@@ -7053,7 +6990,6 @@ spawn(function()
 end)
 v488:AddToggle({
     Name = "Auto Defend Prehistoric",
-    Description = "Xo\195\161 Lava",
     Default = false,
     Callback = function(v887)
         _G.DefendVolcano = v887
@@ -7159,7 +7095,6 @@ end)
 local _ = v488:AddSection({"Auto Skill"})
 v488:AddToggle({
     Name = "Auto Use Melee",
-    Description = "D\195\185ng Melee \196\144\225\187\131 Ph\195\161 Lava",
     Default = false,
     Callback = function(v918)
         _G.UseMelee = v918
@@ -7168,7 +7103,6 @@ v488:AddToggle({
 })
 v488:AddToggle({
     Name = "Auto Use Sword",
-    Description = "D\195\185ng Sword \196\144\225\187\131 Ph\195\161 Lava",
     Default = false,
     Callback = function(v919)
         _G.UseSword = v919
@@ -7177,7 +7111,6 @@ v488:AddToggle({
 })
 v488:AddToggle({
     Name = "Auto Use Gun",
-    Description = "D\195\185ng Gun \196\144\225\187\131 Ph\195\161 Lava",
     Default = false,
     Callback = function(v920)
         _G.UseGun = v920
@@ -7187,7 +7120,6 @@ v488:AddToggle({
 local _ = v488:AddSection({"Auto Kill Golem"})
 v488:AddToggle({
     Name = "Auto Kill Golem",
-    Description = "T\225\187\177 \196\144\225\187\153ng Kill Golem",
     Default = false,
     Callback = function(v922)
         _G.KillGolem = v922
@@ -7225,7 +7157,6 @@ spawn(function()
 end)
 v488:AddToggle({
     Name = "Auto Kill Aura Golem",
-    Description = "T\225\187\177 \196\144\225\187\153ng Kill Aura Golem",
     Default = false,
     Callback = function(v925)
         _G.Kill_Aura = v925
@@ -7266,7 +7197,6 @@ end)
 local _ = v488:AddSection({"Auto Collect Bone,Egg"})
 v488:AddToggle({
     Name = "Auto Collect Bone",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\225\186\183t S\198\176\198\161ng",
     Default = false,
     Callback = function(v934)
         _G.AutoCollectBone = v934
@@ -7286,7 +7216,6 @@ spawn(function()
 end)
 v488:AddToggle({
     Name = "Auto Collect Egg",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\225\186\183t Tr\225\187\169ng",
     Default = false,
     Callback = function(v937)
         _G.CollectEgg = v937
@@ -7317,7 +7246,6 @@ task.spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Tween Kitsune island",
-    Description = "Bay V\195\180 \196\144\225\186\163o Kitsune",
     Default = false,
     Callback = function(v940)
         _G.TweenToKitsune = v940
@@ -7371,7 +7299,6 @@ v489:AddToggle({
 })
 v489:AddToggle({
     Name = "Auto Azuer Ember",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\225\186\183t Linh H\225\187\147n Xanh",
     Default = false,
     Callback = function(v946)
         _G.AutoAzuerEmber = v946
@@ -7392,7 +7319,6 @@ end)
 local _ = v489:AddSection({"Sea Events"})
 v489:AddToggle({
     Name = "Auto Drive Boats",
-    Description = "T\225\187\177 \196\144\225\187\153ng L\195\161i Thuy\225\187\129n",
     Default = false,
     Callback = function(v948)
         _G.SailBoat = v948
@@ -7451,7 +7377,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Kill Terror Shank",
-    Description = "T\225\187\177 \196\144\195\161nh Terror Shank",
     Default = false,
     Callback = function(v952)
         _G.Autoterrorshark = v952
@@ -7566,7 +7491,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Kill Shark",
-    Description = "T\225\187\177 \196\144\225\187\153ng \196\144\195\161nh Shark",
     Default = false,
     Callback = function(v968)
         _G.KillShark = v968
@@ -7610,7 +7534,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Kill Piranha",
-    Description = "T\225\187\177 \196\144\225\187\153ng \196\144\195\161nh Piranha",
     Default = false,
     Callback = function(v973)
         _G.KillPiranha = v973
@@ -7654,7 +7577,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Kill Fish Crew Member",
-    Description = "T\225\187\177 \196\144\225\187\153ng Th\195\160nh vi\195\170n phi h\195\160nh \196\145o\195\160n Auto Kill Fish",
     Default = false,
     Callback = function(v978)
         _G.KillFishCrew = v978
@@ -7709,7 +7631,6 @@ task.spawn(function()
 end)
 v489:AddToggle({
     Name = "Tween Mirage Island",
-    Description = "T\225\187\177 \196\144\225\187\153ng Bay T\225\187\155i \196\144\225\186\163o B\195\173 \225\186\168n",
     Default = false,
     Callback = function(v985)
         _G.AutoMysticIsland = v985
@@ -7731,7 +7652,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Title = "Esp Mirage Island",
-    Description = "\196\144\225\187\139nh V\225\187\139 \196\144\225\186\163o B\195\173 \225\186\168n",
     Value = false,
     Callback = function(v988)
         MirageIslandESP = v988
@@ -7749,7 +7669,6 @@ v489:AddToggle({
 })
 v489:AddToggle({
     Name = "Look Moon + Auto V3",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\195\172n Tr\196\131ng V\195\160 B\225\186\173t T\225\187\153c V3",
     Default = false,
     Callback = function(v989)
         _G.AutoDooHee = v989
@@ -7774,7 +7693,6 @@ spawn(function()
 end)
 v489:AddToggle({
     Name = "Auto Tween To Gear",
-    Description = "T\225\187\177 \196\144\225\187\153ng Bay \196\144\225\186\191n Gear",
     Default = false,
     Callback = function(v993)
         _G.TweenMGear = v993
@@ -7864,7 +7782,6 @@ v490:AddButton({
 })
 v490:AddToggle({
     Name = "Auto Trial Human Ghost",
-    Description = "T\225\187\177 \196\144\225\187\153ng Trial",
     Default = false,
     Callback = function(v998)
         _G.Kill_Aura = v998
@@ -7873,7 +7790,6 @@ v490:AddToggle({
 })
 v490:AddToggle({
     Name = "Auto Trailer All Race",
-    Description = "T\225\187\177 \196\144\225\187\153ng Trailer All Race",
     Default = false,
     Callback = function(v999)
         _G.AutoQuestRace = v999
@@ -8001,7 +7917,6 @@ spawn(function()
 end)
 v490:AddToggle({
     Name = "Auto Kill Player Trailer V4",
-    Description = "\196\144\195\161nh Ng\198\176\225\187\157i Ch\198\161i Trong Trial",
     Default = false,
     Callback = function(v1020)
         _G.AutoKillV4 = v1020
@@ -8034,7 +7949,6 @@ end)
 local _ = v490:AddSection({"Auto Skill"})
 v490:AddToggle({
     Name = "Auto Skill Z",
-    Description = "T\225\187\177 \196\144\225\187\153ng D\195\185ng Skill Z \196\144\225\187\131 \196\144\195\161nh",
     Default = false,
     Callback = function(v1024)
         _G.XaiSkillZ = v1024
@@ -8043,7 +7957,6 @@ v490:AddToggle({
 })
 v490:AddToggle({
     Name = "Auto Skill X",
-    Description = "T\225\187\177 \196\144\225\187\153ng D\195\185ng Skill X \196\144\225\187\131 \196\144\195\161nh",
     Default = false,
     Callback = function(v1025)
         _G.XaiSkillX = v1025
@@ -8052,7 +7965,6 @@ v490:AddToggle({
 })
 v490:AddToggle({
     Name = "Auto Skill C",
-    Description = "T\225\187\177 \196\144\225\187\153ng D\195\185ng Skill C \196\144\225\187\131 \196\144\195\161nh",
     Default = false,
     Callback = function(v1026)
         _G.XaiSkillC = v1026
@@ -8083,7 +7995,6 @@ v491:AddDropdown({
 })
 v491:AddToggle({
     Name = "Auto Buy Chip",
-    Description = "T\225\187\177 \196\144\225\187\153ng Mua Chip Raid",
     Default = false,
     Callback = function(v1029)
         _G.AutoBuyChip = v1029
@@ -8101,7 +8012,6 @@ task.spawn(function()
 end)
 v491:AddToggle({
     Name = "Auto Start Raid",
-    Description = "B\225\186\175t \196\144\225\186\167u Raid",
     Default = false,
     Callback = function(v1031)
         _G.StartRaid = v1031
@@ -8132,7 +8042,6 @@ task.spawn(function()
 end)
 v491:AddToggle({
     Name = "Auto Farm Raid Next Island",
-    Description = "\196\144\195\161nh Qu\195\161i V\195\160 \196\144i Chuy\225\187\131n \196\144\225\186\163o",
     Default = false,
     Callback = function(v1033)
         _G.Dungeon = v1033
@@ -8189,7 +8098,6 @@ task.spawn(function()
 end)
 v491:AddToggle({
     Name = "Auto Get Fruit Low Beli",
-    Description = "T\225\187\177 \196\144\225\187\153ng L\225\186\165y Tr\195\161i \195\141t Beli",
     Default = false,
     Callback = function(v1050)
         _G.Autofruit = v1050
@@ -8240,7 +8148,6 @@ end)
 local _ = v491:AddSection({"Raid Law Sea 2"})
 v491:AddButton({
     Title = "Auto Buy Chip Law",
-    Description = "T\225\187\177 \196\144\225\187\153ng Mua Chip Law Raid",
     Value = false,
     Callback = function()
         local v1069 = {[1] = "BlackbeardReward", [2] = "Microchip", [3] = "2"}
@@ -8256,7 +8163,6 @@ v491:AddButton({
 })
 v491:AddToggle({
     Name = "Auto Farm Law Raid",
-    Description = "\196\144\195\161nh Boss Law Raid",
     Default = false,
     Callback = function(v1070)
         _G.AutoLawRaid = v1070
@@ -8293,7 +8199,6 @@ end)
 local _ = v492:AddSection({"Fruits"})
 v492:AddToggle({
     Name = "Auto Random Fruits",
-    Description = "T\225\187\177 \196\144\225\187\153ng Random Tr\195\161i \195\129c Qu\225\187\183",
     Default = false,
     Callback = function(v1074)
         _G.RandomAuto = v1074
@@ -8310,7 +8215,6 @@ spawn(function()
 end)
 v492:AddToggle({
     Title = "Auto Store Fruits",
-    Description = "T\225\187\177 \196\144\225\187\153ng L\198\176u Tr\195\161i \195\129c Qu\225\187\183 V\195\160o Kho \196\144\225\187\147",
     Value = false,
     Callback = function(v1075)
         getgenv().AutoStoreFruit = v1075
@@ -8380,7 +8284,6 @@ spawn(function()
 end)
 v492:AddToggle({
     Name = "Teleport To Fruit Spawn",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\225\186\183t Tr\195\161i \195\129c Qu\225\187\183 N\225\186\191u Xu\225\186\165t Hi\225\187\135n Trong Sever",
     Default = false,
     Callback = function(v1084)
         _G.Tweenfruit = v1084
@@ -8399,7 +8302,6 @@ spawn(function()
 end)
 v492:AddToggle({
     Name = "Auto Teleport Fruits",
-    Description = "T\225\187\177 \196\144\225\187\153ng Teleport \196\144\225\186\191n Tr\195\161i \195\129c Qu\225\187\183",
     Default = false,
     Callback = function(v1087)
         _G.Grabfruit = v1087
@@ -8562,7 +8464,6 @@ else
 end
 v493:AddDropdown({
     Name = "Select Island",
-    Description = "Ch\225\187\141n \196\145\225\186\163o \196\145\225\187\131 teleport",
     Options = v1117,
     Default = v1117[1],
     Callback = function(v1118)
@@ -8571,7 +8472,6 @@ v493:AddDropdown({
 })
 v493:AddToggle({
     Name = "Auto Tween To Island",
-    Description = "T\225\187\177 \196\145\225\187\153ng di chuy\225\187\131n t\225\187\155i \196\145\225\186\163o \196\145\195\163 ch\225\187\141n",
     Default = false,
     Callback = function(v1119)
         _G.TeleportIsland = v1119
@@ -8752,21 +8652,18 @@ end)
 local _ = v493:AddSection({"Teleport Sea | Di Chuy\225\187\131n Sea 1,2,3"})
 v493:AddButton({
     Name = "Sea 1",
-    Description = "Bi\225\187\131n 1",
     Callback = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
     end
 })
 v493:AddButton({
     Name = "Sea 2",
-    Description = "Bi\225\187\131n 2",
     Callback = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
     end
 })
 v493:AddButton({
     Name = "Sea 3",
-    Description = "Bi\225\187\131n 3",
     Callback = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
     end
@@ -8779,14 +8676,12 @@ end
 local _ = nil
 v494:AddButton({
     Title = "Get Quest Elite Players",
-    Description = "Nh\225\186\173n Nhi\225\187\135m V\225\187\165 Ng\198\176\225\187\157i Ch\198\161i",
     Callback = function()
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
     end
 })
 v494:AddToggle({
     Title = "Auto Kill Player Quest",
-    Description = "Bay \196\144\225\186\191n Ng\198\176\225\187\157i Ch\198\161i \196\144\198\176\225\187\163c Nh\225\186\173n Nhi\225\187\135m V\225\187\165",
     Value = false,
     Callback = function(v1127)
         _G.AutoPlayerHunter = v1127
@@ -8840,7 +8735,6 @@ spawn(function()
 end)
 v494:AddToggle({
     Name = "Auto Safe Mode",
-    Description = "T\225\187\177 \196\144\225\187\153ng An To\195\160n Di Chuy\225\187\131n L\195\170n Tr\225\187\157i An To\195\160n",
     Default = false,
     Callback = function(v1130)
         _G.SafeMode = v1130
@@ -8904,7 +8798,6 @@ v494:AddSlider({
 })
 v494:AddToggle({
     Name = "Delete Lava",
-    Description = "Xo\195\161 Lava Tr\195\161nh B\225\187\139 M\225\186\165y Th\225\186\177ng Kid L\225\187\143 D\195\172m Lava :))",
     Default = false,
     Callback = function(v1141)
         _G.RemoveLava = v1141
@@ -9292,7 +9185,6 @@ v495:AddButton({
 local _ = v495:AddSection({"Reset Stats , Random Race"})
 v495:AddButton({
     Title = "\196\144\225\187\149i T\225\187\153c Ghoul",
-    Description = "",
     Callback = function()
         local v1162 = {[1] = "Ectoplasm", [2] = "Change", [3] = 4}
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(v1162))
@@ -9300,7 +9192,6 @@ v495:AddButton({
 })
 v495:AddButton({
     Title = "\196\144\225\187\149i T\225\187\153c Cyborg",
-    Description = "",
     Callback = function()
         local v1163 = {[1] = "CyborgTrainer", [2] = "Buy"}
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(v1163))
@@ -9325,7 +9216,6 @@ v496:AddParagraph({Title = "Unban Fast Attack - M1 Fruit", Content = "On: \226\1
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnhDangNhoEm/TuanAnhIOS/refs/heads/main/koby"))()
 v496:AddToggle({
     Name = "Bring Mod",
-    Description = "T\225\187\177 \196\144\225\187\153ng Gom Qu\195\161i",
     Default = true,
     Callback = function(v1165)
         _G.BringMonster = v1165
@@ -9377,7 +9267,6 @@ function InMyNetWork(v1168)
 end
 v496:AddToggle({
     Title = "Set Home Point",
-    Description = "L\198\176u \196\144i\225\187\131m H\225\187\147i Sinh",
     Value = false,
     Callback = function(v1169)
         _G.CheckPoint = v1169
@@ -9402,7 +9291,6 @@ spawn(function()
 end)
 v496:AddToggle({
     Title = "Auto Active Race V3",
-    Description = "T\225\187\177 \196\144\225\187\153ng B\225\186\173t T\225\187\153c V3",
     Value = false,
     Callback = function(v1171)
         _G.AutoRaceV3 = v1171
@@ -9419,7 +9307,6 @@ spawn(function()
 end)
 v496:AddToggle({
     Title = "Auto Active Race V4",
-    Description = "T\225\187\177 \196\144\225\187\153ng B\225\186\173t T\225\187\153c V4",
     Value = false,
     Callback = function(v1172)
         _G.AutoRaceV4 = v1172
@@ -9532,7 +9419,6 @@ local v1197 = false
 local v1198 = 1
 v496:AddToggle({
     Title = "Melee",
-    Description = "T\225\187\177 \196\144\225\187\153ng N\195\162ng \196\144i\225\187\131m Melee",
     Value = false,
     Callback = function(v1199)
         v1193 = v1199
@@ -9540,7 +9426,6 @@ v496:AddToggle({
 })
 v496:AddToggle({
     Title = "Defense",
-    Description = "T\225\187\177 \196\144\225\187\153ng N\195\162ng \196\144i\225\187\131m N\196\131ng L\198\176\225\187\163ng",
     Value = false,
     Callback = function(v1200)
         v1194 = v1200
@@ -9548,7 +9433,6 @@ v496:AddToggle({
 })
 v496:AddToggle({
     Title = "Sword",
-    Description = "T\225\187\177 \196\144\225\187\153ng N\195\162ng \196\144i\225\187\131m Ki\225\186\191m",
     Value = false,
     Callback = function(v1201)
         v1195 = v1201
@@ -9556,7 +9440,6 @@ v496:AddToggle({
 })
 v496:AddToggle({
     Title = "Gun",
-    Description = "T\225\187\177 \196\144\225\187\153ng N\195\162ng \196\144i\225\187\131m S\195\186ng",
     Value = false,
     Callback = function(v1202)
         v1196 = v1202
@@ -9564,7 +9447,6 @@ v496:AddToggle({
 })
 v496:AddToggle({
     Title = "Fruis",
-    Description = "T\225\187\177 \196\144\225\187\153ng N\195\162ng \196\144i\225\187\131m Tr\195\161i",
     Value = false,
     Callback = function(v1203)
         v1197 = v1203
@@ -9637,7 +9519,6 @@ v496:AddButton({
 })
 v496:AddButton({
     Title = "FPS Boost",
-    Description = "T\196\131ng Fps",
     Callback = function()
         local v1210 = true
         local l_game_0 = game
@@ -9733,7 +9614,6 @@ local v1218 = {
 }
 v496:AddButton({
     Title = "Codes",
-    Description = "T\225\187\177 \196\144\225\187\153ng Nh\225\186\173p H\225\186\191t Code",
     Callback = function()
         for _, v1220 in ipairs(v1218) do
             local v1221 = {v1220}
