@@ -2081,88 +2081,217 @@ end)
 		end
 	end)
 	local Tabs = {
-	Info = Window:AddTab({
-		Title = "Update Log",
-		Icon = "info"
-	}),
-
 	Discord = Window:AddTab({
-		Title = "Discord",
+		Title = "Home",
 		Icon = "message-circle"
 	}),
-
 	Server = Window:AddTab({
 		Title = "Server",
 		Icon = "server"
 	}),
-
 	Main = Window:AddTab({
 		Title = "Main",
 		Icon = "home"
 	}),
-
 	Settings = Window:AddTab({
 		Title = "Settings",
 		Icon = "settings"
 	}),
-
-	-- Removido: Melee / Fighting Styles V2
-
 	Fruit = Window:AddTab({
 		Title = "Fruit",
 		Icon = "apple"
 	}),
-	
 	Quests = Window:AddTab({
 		Title = "Farm Outros",
 		Icon = "scroll"
 	}),
-	
+	Fishing = Window:AddTab({
+		Title = "Fishing",
+		Icon = "anchor"
+	}),
 	SeaEvent = Window:AddTab({
 		Title = "Sea Events",
 		Icon = "waves"
 	}),
-	
 	Mirage = Window:AddTab({
 		Title = "Race V4",
 		Icon = "moon"
 	}),
-	
 	Drago = Window:AddTab({
 		Title = "Dragon Dojo",
 		Icon = "flame"
 	}),
-	
 	Prehistoric = Window:AddTab({
 		Title = "Prehistoric",
 		Icon = "skull"
 	}),
-	
 	Raids = Window:AddTab({
 		Title = "Raids",
 		Icon = "axe"
 	}),
-	
 	Combat = Window:AddTab({
 		Title = "Pvp",
 		Icon = "crosshair"
 	}),
-	
 	Travel = Window:AddTab({
 		Title = "Travel",
 		Icon = "map-pin"
 	}),
-	
 	Shop = Window:AddTab({
 		Title = "Shop",
 		Icon = "shopping-cart"
 	}),
-	
 	Misc = Window:AddTab({
 		Title = "Misc",
 		Icon = "package"
 	})
 }
+
+-- ========================= [ Section Fishing ] =========================
+local Section = Tabs.Fishing:AddSection("Fishing System")
+
+local SelectedRod = "Fishing Rod"
+local SelectedBait = "Basic Bait"
+local AutoFishing = false
+
+-- Dropdown Vara
+Tabs.Fishing:AddDropdown("RodSelect", {
+	Title = "Select Fishing Rod",
+	Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
+	Default = "Fishing Rod",
+	Callback = function(Value)
+		SelectedRod = Value
+	end
+})
+
+-- Dropdown Isca
+Tabs.Fishing:AddDropdown("BaitSelect", {
+	Title = "Select Bait",
+	Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
+	Default = "Basic Bait",
+	Callback = function(Value)
+		SelectedBait = Value
+	end
+})
+
+-- Toggle Auto Fishing
+Tabs.Fishing:AddToggle("AutoFishing", {
+	Title = "Auto Farm Fishing",
+	Default = false,
+	Callback = function(Value)
+		AutoFishing = Value
+		if Value then
+			StartFishingLoop()
+		end
+	end
+})
+
+-- ========================= [ Sistema Fishing ] =========================
+local plr = game.Players.LocalPlayer
+local rep = game:GetService("ReplicatedStorage")
+
+local Modules = rep:WaitForChild("Modules")
+local Net = Modules:WaitForChild("Net")
+local FishReplicated = rep:WaitForChild("FishReplicated")
+local FishingRequest = FishReplicated:FindFirstChild("FishingRequest")
+local FishingClient = FishReplicated:WaitForChild("FishingClient")
+local Config = require(FishingClient:WaitForChild("Config"))
+local Util = rep:WaitForChild("Util")
+local GetWaterHeightAtLocation = require(Util:WaitForChild("GetWaterHeightAtLocation"))
+local CommF_ = Net:FindFirstChild("RF/JobsRemoteFunction")
+local CraftRF = Net:FindFirstChild("RF/Craft")
+
+local function EnsureRodAndBait()
+	pcall(function()
+		CommF_:InvokeServer("FishingNPC", "FirstTimeFreeRod")
+		if SelectedRod then
+			CommF_:InvokeServer("LoadItem", SelectedRod, {"Gear"})
+		end
+	end)
+	task.wait(0.5)
+
+	local Data = plr:FindFirstChild("Data") and plr.Data:FindFirstChild("FishingData")
+	if Data and (Data:GetAttribute("SelectedBait") == "None" or Data:GetAttribute("SelectedBait") == nil) then
+		local inv = CommF_:InvokeServer("getInventory")
+		for _, v in pairs(inv) do
+			if v.Type == "Bait" and v.Name == SelectedBait then
+				CommF_:InvokeServer("LoadItem", v.Name, {"Usables"})
+				return
+			end
+		end
+		if CraftRF and SelectedBait then
+			CraftRF:InvokeServer("Craft", SelectedBait)
+			task.wait(2)
+		end
+	end
+end
+
+local function EquipRod()
+	local char = plr.Character
+	if not char then return end
+	local hum = char:FindFirstChildOfClass("Humanoid")
+	if not char:FindFirstChild(SelectedRod) then
+		local Rod = plr.Backpack:FindFirstChild(SelectedRod)
+		if Rod and hum then
+			hum:EquipTool(Rod)
+			task.wait(0.3)
+		end
+	end
+end
+
+local function GetCastPosition()
+	local char = plr.Character
+	if not char then return end
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	local direction = hrp.CFrame.LookVector * (Config.Rod.MaxLaunchDistance or 50)
+	local _, hitPos = workspace:FindPartOnRayWithIgnoreList(
+		Ray.new(char.Head.Position, direction),
+		{char, workspace.Characters, workspace.Enemies}
+	)
+	return hitPos or (hrp.Position + Vector3.new(0, -10, 0))
+end
+
+local function CastLine()
+	if not FishingRequest then return end
+	pcall(function()
+		FishingRequest:InvokeServer("StartCasting")
+		task.wait(0.7)
+		FishingRequest:InvokeServer("CastLineAtLocation", GetCastPosition(), 100, true)
+	end)
+end
+
+local function CatchFish()
+	if not FishingRequest then return end
+	pcall(function()
+		FishingRequest:InvokeServer("Catching", 1)
+		task.wait(0.25)
+		FishingRequest:InvokeServer("Catch", 1)
+	end)
+end
+
+function StartFishingLoop()
+	task.spawn(function()
+		while AutoFishing do
+			task.wait(0.5)
+			pcall(function()
+				local char = plr.Character or plr.CharacterAdded:Wait()
+				if not char then return end
+				EnsureRodAndBait()
+				EquipRod()
+
+				local RodTool = char:FindFirstChild(SelectedRod)
+				if RodTool then
+					local state = RodTool:GetAttribute("ServerState") or RodTool:GetAttribute("State")
+					if state == "Biting" then
+						CatchFish()
+					elseif state == "ReeledIn" or state == "Idle" or not state then
+						CastLine()
+					end
+				end
+			end)
+		end
+	end)
+end
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2314,20 +2443,6 @@ task.spawn(function()
         end
     end
 end)
-
--- 💬 Parágrafo único na aba Information
-Tabs.Info:AddParagraph({
-	Title = "Leia Por Favor",
-	Content = "Tab Shop Not Working"
-})
-
-	Tabs.Discord:AddButton({
-		Title = "Link Join Sever Discord",
-		Description = "Nosso Servidor do discord",
-		Callback = function()
-			setclipboard(tostring("https://discord.gg/pGYH2MCpc"))
-		end
-	})
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local Players = game:GetService("Players")
 	if World3 then
