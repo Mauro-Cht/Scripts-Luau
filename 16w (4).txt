@@ -2422,32 +2422,45 @@ spawn(function()
 end)
 
 local AutoWerewolf = Tabs.MiscFarm:AddToggle("AutoWerewolf", {
-	Title = "Auto Defeat Werewolf",
-	Default = false
+    Title = "Auto Defeat Werewolf",
+    Default = false
 })
 
 AutoWerewolf:OnChanged(function(value)
-	_G.Werewolf = value
+    _G.Werewolf = value
 end)
 
 task.spawn(function()
-	while task.wait(0.5) do
-		if _G.Werewolf then
-			pcall(function()
-				for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-					if v:IsA("Model") and v.Name == "Unbound Werewolf" and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
-						if v.Humanoid.Health > 0 then
-							repeat
-								task.wait()
-								Attack.Kill(v, _G.Werewolf)
-							until not _G.Werewolf or not v.Parent or v.Humanoid.Health <= 0
-						end
-					end
-				end
-			end)
-		end
-	end
+    while task.wait(0.5) do
+        if _G.Werewolf then
+            pcall(function()
+                for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                    if v:IsA("Model") 
+                    and v.Name == "Unbound Werewolf" 
+                    and v:FindFirstChild("Humanoid") 
+                    and v:FindFirstChild("HumanoidRootPart") then
+                    
+                        if v.Humanoid.Health > 0 then
+                            repeat
+                                task.wait()
+                                Attack.Kill(v, _G.Werewolf)
+                            until not _G.Werewolf or not v.Parent or v.Humanoid.Health <= 0
+                        end
+                    end
+                end
+            end)
+        end
+    end
 end)
+
+-- 🟣 Botão Halloween Gacha
+Tabs.MiscFarm:AddButton({
+    Title = "Halloween Gacha",
+    Description = "",
+    Callback = function()
+        replicated.Remotes.CommF_:InvokeServer("Cousin", "HalloweenGacha25")
+    end
+})
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local plr = Players.LocalPlayer
