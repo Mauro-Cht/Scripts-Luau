@@ -2081,115 +2081,109 @@ end)
 		end
 	end)
 	local Tabs = {
-	Discord = Window:AddTab({
-		Title = "Home",
-		Icon = "message-circle"
-	}),
-	Server = Window:AddTab({
-		Title = "Server",
-		Icon = "server"
-	}),
-	Main = Window:AddTab({
-		Title = "Main",
-		Icon = "home"
-	}),
-	Settings = Window:AddTab({
-		Title = "Settings",
-		Icon = "settings"
-	}),
-	Fruit = Window:AddTab({
-		Title = "Fruit",
-		Icon = "apple"
-	}),
-	Quests = Window:AddTab({
-		Title = "Farm Outros",
-		Icon = "scroll"
-	}),
-	Fishing = Window:AddTab({
-		Title = "Fishing",
-		Icon = "anchor"
-	}),
-	SeaEvent = Window:AddTab({
-		Title = "Sea Events",
-		Icon = "waves"
-	}),
-	Mirage = Window:AddTab({
-		Title = "Race V4",
-		Icon = "moon"
-	}),
-	Drago = Window:AddTab({
-		Title = "Dragon Dojo",
-		Icon = "flame"
-	}),
-	Prehistoric = Window:AddTab({
-		Title = "Prehistoric",
-		Icon = "skull"
-	}),
-	Raids = Window:AddTab({
-		Title = "Raids",
-		Icon = "axe"
-	}),
-	Combat = Window:AddTab({
-		Title = "Pvp",
-		Icon = "crosshair"
-	}),
-	Travel = Window:AddTab({
-		Title = "Travel",
-		Icon = "map-pin"
-	}),
-	Shop = Window:AddTab({
-		Title = "Shop",
-		Icon = "shopping-cart"
-	}),
-	Misc = Window:AddTab({
-		Title = "Misc",
-		Icon = "package"
-	})
+    Discord = Window:AddTab({
+        Title = "Home",
+        Icon = "message-circle"
+    }),
+    Server = Window:AddTab({
+        Title = "Server",
+        Icon = "server"
+    }),
+    Main = Window:AddTab({
+        Title = "Main",
+        Icon = "home"
+    }),
+    Settings = Window:AddTab({
+        Title = "Settings",
+        Icon = "settings"
+    }),
+    Fruit = Window:AddTab({
+        Title = "Fruit",
+        Icon = "apple"
+    }),
+    Quests = Window:AddTab({
+        Title = "Farm Outros",
+        Icon = "scroll"
+    }),
+    MiscFarm = Window:AddTab({
+        Title = "Misc Farm",
+        Icon = "anchor"
+    }),
+    SeaEvent = Window:AddTab({
+        Title = "Sea Events",
+        Icon = "waves"
+    }),
+    Mirage = Window:AddTab({
+        Title = "Race V4",
+        Icon = "moon"
+    }),
+    Drago = Window:AddTab({
+        Title = "Dragon Dojo",
+        Icon = "flame"
+    }),
+    Prehistoric = Window:AddTab({
+        Title = "Prehistoric",
+        Icon = "skull"
+    }),
+    Raids = Window:AddTab({
+        Title = "Raids",
+        Icon = "axe"
+    }),
+    Combat = Window:AddTab({
+        Title = "Pvp",
+        Icon = "crosshair"
+    }),
+    Travel = Window:AddTab({
+        Title = "Travel",
+        Icon = "map-pin"
+    }),
+    Shop = Window:AddTab({
+        Title = "Shop",
+        Icon = "shopping-cart"
+    }),
+    Misc = Window:AddTab({
+        Title = "Misc",
+        Icon = "package"
+    })
 }
 
--- ========================= [ Section Fishing ] =========================
-local Section = Tabs.Fishing:AddSection("Fishing System")
+local Section = Tabs.MiscFarm:AddSection("Fishing System")
 
 local SelectedRod = "Fishing Rod"
 local SelectedBait = "Basic Bait"
 local AutoFishing = false
 
--- Dropdown Vara
-Tabs.Fishing:AddDropdown("RodSelect", {
-	Title = "Select Fishing Rod",
-	Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
-	Default = "Fishing Rod",
-	Callback = function(Value)
-		SelectedRod = Value
-	end
+Tabs.MiscFarm:AddDropdown("RodSelect", {
+    Title = "Select Fishing Rod",
+    Values = {"Fishing Rod", "Gold Rod", "Shark Rod", "Shell Rod", "Treasure Rod"},
+    Default = "Fishing Rod",
+    Callback = function(Value)
+        SelectedRod = Value
+    end
 })
 
--- Dropdown Isca
-Tabs.Fishing:AddDropdown("BaitSelect", {
-	Title = "Select Bait",
-	Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
-	Default = "Basic Bait",
-	Callback = function(Value)
-		SelectedBait = Value
-	end
+Tabs.MiscFarm:AddDropdown("BaitSelect", {
+    Title = "Select Bait",
+    Values = {"Basic Bait", "Kelp Bait", "Good Bait", "Abyssal Bait", "Frozen Bait", "Epic Bait", "Carnivore Bait"},
+    Default = "Basic Bait",
+    Callback = function(Value)
+        SelectedBait = Value
+    end
 })
 
--- Toggle Auto Fishing
-Tabs.Fishing:AddToggle("AutoFishing", {
-	Title = "Auto Farm Fishing",
-	Default = false,
-	Callback = function(Value)
-		AutoFishing = Value
-		if Value then
-			StartFishingLoop()
-		end
-	end
+Tabs.MiscFarm:AddToggle("AutoFishing", {
+    Title = "Auto Farm Fishing",
+    Default = false,
+    Callback = function(Value)
+        AutoFishing = Value
+        if Value then
+            StartFishingLoop()
+        end
+    end
 })
 
--- ========================= [ Sistema Fishing ] =========================
 local plr = game.Players.LocalPlayer
 local rep = game:GetService("ReplicatedStorage")
-
 local Modules = rep:WaitForChild("Modules")
 local Net = Modules:WaitForChild("Net")
 local FishReplicated = rep:WaitForChild("FishReplicated")
@@ -2292,6 +2286,160 @@ function StartFishingLoop()
 		end
 	end)
 end
+
+local HalloweenToggle = Tabs.MiscFarm:AddToggle("HalloweenToggle", {
+	Title = "Auto Trick or Treat",
+	Default = false
+})
+
+local knockDelay = 2
+local doorDelay = 5
+local trickDelay = 1
+
+local DoorBySea = {
+World1 = {
+CFrame.new(-1016.05951,11.1554155,1540.78235),
+CFrame.new(-1089.28284,10.6633625,1604.43518),
+CFrame.new(-1090.78882,10.5735903,1694.84729),
+CFrame.new(-665.780701,9.71188927,1701.52112),
+CFrame.new(-571.03418,9.71188927,1553.104),
+CFrame.new(-615.743652,9.68747139,1479.30908),
+CFrame.new(722.841309,7.79379559,1444.29028)
+}
+}
+
+DoorPositions = DoorBySea.World1
+
+local function FindNearestPrompt(position)
+local nearest, dist = nil, 10
+for _, v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+local parent = v.Parent
+local root = parent:FindFirstChild("HumanoidRootPart") or parent:FindFirstChild("Head") or parent:FindFirstChild("Torso") or parent
+if root then
+local d = (root.Position - position).Magnitude
+if d < dist then
+dist = d
+nearest = v
+end
+end
+end
+end
+return nearest
+end
+
+HalloweenToggle:OnChanged(function(value)
+	_G.HalloweenToggle = value
+end)
+
+spawn(function()
+	while task.wait(0.1) do
+		if _G.HalloweenToggle then
+			for i = 1, #DoorPositions do
+				if not _G.HalloweenToggle then
+					break
+				end
+
+				local cf = DoorPositions[i]
+				_tp(cf + Vector3.new(0, 3, 0))
+				task.wait(0.2)
+
+				if plr.PlayerGui.Main.Dialogue.Visible == true then
+					plr.PlayerGui.Main.Dialogue.Visible = false
+				end
+
+				local prompt = FindNearestPrompt(cf.Position)
+				if prompt then
+					pcall(function()
+						fireproximityprompt(prompt)
+						task.wait(knockDelay)
+						fireproximityprompt(prompt)
+					end)
+				end
+
+				task.wait(doorDelay)
+
+				pcall(function()
+					replicated.Remotes.HalloweenEvent:FireServer("AcceptReward")
+					replicated.Remotes.HalloweenEvent:FireServer("Parlus")
+					replicated.Remotes.HalloweenEvent:FireServer("ignore")
+				end)
+
+				task.wait(trickDelay)
+			end
+		end
+	end
+end)
+
+local HalloweenDoorEnemies = Tabs.MiscFarm:AddToggle("AutoDefeatDoorEnemies", {
+	Title = "Auto Defeat Door Enemies",
+	Default = false
+})
+
+local HalloweenEnemies = {
+"Cursed Skeleton",
+"Vampire",
+"Gorilla",
+"Oni Soldier",
+"Celestial Soldier",
+"Snowman",
+"rip_return",
+"Unbound Werewolf",
+"Rip Infantry"
+}
+
+HalloweenDoorEnemies:OnChanged(function(value)
+	_G.AutoDefeatHalloweenDoorEnemie = value
+end)
+
+spawn(function()
+	while task.wait(0.5) do
+		if _G.AutoDefeatHalloweenDoorEnemie then
+			local success, err = pcall(function()
+				for i, v in next, game.Workspace.Enemies:GetChildren() do
+					if v:IsA("Model")
+					and v:FindFirstChild("Humanoid")
+					and v.Humanoid.Health > 0
+					and table.find(HalloweenEnemies, v.Name) then
+
+						repeat
+							task.wait()
+							Attack.Kill(v, _G.AutoDefeatHalloweenDoorEnemie)
+						until not _G.AutoDefeatHalloweenDoorEnemie or not v.Parent or v.Humanoid.Health <= 0
+					end
+				end
+			end)
+		end
+	end
+end)
+
+local AutoWerewolf = Tabs.MiscFarm:AddToggle("AutoWerewolf", {
+	Title = "Auto Defeat Werewolf",
+	Default = false
+})
+
+AutoWerewolf:OnChanged(function(value)
+	_G.Werewolf = value
+end)
+
+task.spawn(function()
+	while task.wait(0.5) do
+		if _G.Werewolf then
+			local success, err = pcall(function()
+				for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+					if v:IsA("Model") and v.Name == "Unbound Werewolf" and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+						if v.Humanoid.Health > 0 then
+							repeat
+								task.wait()
+								Attack.Kill(v, _G.Werewolf)
+							until not _G.Werewolf or not v.Parent or v.Humanoid.Health <= 0
+						end
+					end
+				end
+			end)
+		end
+	end
+end)
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -6648,233 +6796,30 @@ end)
 		end
 	end)
 	local Q = Tabs.Quests:AddToggle("Q", {
-    Title = "Auto Lei Accessory",
-    Description = "",
-    Default = false
-})
-
-Q:OnChanged(function(Value)
-    _G.AutoKilo = Value
-end)
-
-task.spawn(function()
-    while task.wait(0.2) do
-        if _G.AutoKilo then
-            pcall(function()
-                local v = GetConnectionEnemies("Kilo Admiral")
-                if v then
-                    repeat
-                        task.wait()
-                        Attack.Kill(v, _G.AutoKilo)
-                    until not _G.AutoKilo or not v.Parent or v.Humanoid.Health <= 0
-                else
-                    _tp(CFrame.new(2764.2233886719, 432.46154785156, -7144.4580078125))
-                end
-            end)
-        end
-    end
-end)
-
-
-local Section = Tabs.Halloween:AddSection("Halloween Event")
-
-local HalloweenToggle = Tabs.Halloween:AddToggle("HalloweenToggle", {
-    Title = "Auto Trick or Treat",
-    Description = "",
-    Default = false
-})
-
-local knockDelay = 2
-local doorDelay = 5
-local trickDelay = 1
-
-local DoorBySea = {
-    World1 = {
-        CFrame.new(-1016.05951,11.1554155,1540.78235,-0.259074688,0,0.965857327,0,1,0,-0.965857327,0,-0.259074688),
-        CFrame.new(-1089.28284,10.6633625,1604.43518,0.866141319,0,-0.499799222,0,1,0,0.499799222,0,0.866141319),
-        CFrame.new(-1090.78882,10.5735903,1694.84729,0.965862036,0,0.259057134,0,1,0,-0.259057134,0,0.965862036),
-        CFrame.new(-665.780701,9.71188927,1701.52112,-0.99181968,5.254558036e-08,-0.127646819,5.13036298e-08,1,1.30173978e-08,0.127646819,6.36216635e-09,-0.99181968),
-        CFrame.new(-571.03418,9.71188927,1553.104,0.238623217,8.71156587e-08,-0.971112251,2.74919216e-08,1,9.64624505e-08,0.971112251,-4.97159226e-08,0.238623217),
-        CFrame.new(-615.743652,9.68747139,1479.30908,0.815481067,0.00558292679,-0.578756809,0.000366810855,0.999948263,0.0101627586,0.578783572,-0.00849983189,0.8154369),
-        CFrame.new(722.841309,7.79379559,1444.29028,0.977708578,-4.91986221e-08,-0.209966481,3.68222004e-08,1,-6.2854042e-08,0.209966481,5.37215108e-08,0.977708578)
-    },
-
-    World2 = {
-        CFrame.new(-512.035645, 74.7451935, 156.465195, 0, 0, 1, 0, 1, -0, -1, 0, 0),
-        CFrame.new(-420.992615, 74.4821396, 156.168015, 0, 0, 1, 0, 1, -0, -1, 0, 0),
-        CFrame.new(-371.423737, 74.7515182, 154.181808, 0.719358087, 0, 0.694639385, 0, 1, 0, -0.694639385, 0, 0.719358087),
-        CFrame.new(-637.225525, 74.6199265, 206.692734, -0.999848366, 0, -0.017436387, 0, 1, 0, 0.017436387, 0, -0.999848366),
-        CFrame.new(-620.019348, 74.4223099, 103.196877, -0.707134247, 0.00017884915, -0.707079291, -1.93455853e-05, 0.99999994, 0.000272287783, 0.707079291, 0.000206222874, -0.707134247)
-    },
-
-    World3 = {
-        CFrame.new(-12257.124,334.613007,-7417.19434,-0.996191859,0,-0.0871884301,0,1,0,0.0871884301,0,-0.996191859),
-        CFrame.new(-12179.9883,335.293854,-7568.4043,0.984812498,0,0.173621148,0,1,0,-0.173621148,0,0.984812498),
-        CFrame.new(-12307.4014,335.27951,-7572.65381,-0.173624277,0,-0.984811902,0,1,0,0.984811902,0,-0.173624277),
-        CFrame.new(-12461.3984, 334.636444, -7703.56934, 0.707134247, 0, 0.707079291, 0, 1, 0, -0.707079291, 0, 0.707134247),
-        CFrame.new(-12603.7588, 335.348114, -7739.28662, -0.939700961, 0, 0.341998369, 0, 1, 0, -0.341998369, 0, -0.939700961),
-        CFrame.new(-12533.2305, 334.66803, -7269.23242, -0.166172266, 0, -0.98609668, 0, 1, 0, 0.98609668, 0, -0.166172266)
-    }
-}
-
-DoorPositions = World1 and DoorBySea.World1 or World2 and DoorBySea.World2 or World3 and DoorBySea.World3 or {}
-
-local function FindNearestPrompt(position)
-    local nearest, dist = nil, 10
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:IsA("ProximityPrompt") then
-            local root = v.Parent:FindFirstChild("HumanoidRootPart") or v.Parent:FindFirstChild("Head") or v.Parent:FindFirstChild("Torso") or v.Parent
-            if root then
-                local d = (root.Position - position).Magnitude
-                if d < dist then
-                    dist = d
-                    nearest = v
-                end
-            end
-        end
-    end
-    return nearest
-end
-
-HalloweenToggle:OnChanged(function(value)
-    _G.HalloweenToggle = value
-end)
-
-task.spawn(function()
-    while task.wait(0.1) do
-        if _G.HalloweenToggle then
-            for i = 1, #DoorPositions do
-                if not _G.HalloweenToggle then break end
-
-                local cf = DoorPositions[i]
-
-                _tp(cf + Vector3.new(0, 3, 0))
-                task.wait(0.2)
-
-                if plr.PlayerGui.Main.Dialogue.Visible == true then
-                    plr.PlayerGui.Main.Dialogue.Visible = false
-                end
-
-                local prompt = FindNearestPrompt(cf.Position)
-                if prompt then
-                    pcall(function()
-                        fireproximityprompt(prompt)
-                        task.wait(knockDelay)
-                        fireproximityprompt(prompt)
-                    end)
-                end
-
-                task.wait(doorDelay)
-
-                pcall(function()
-                    replicated.Remotes.HalloweenEvent:FireServer("AcceptReward")
-                    replicated.Remotes.HalloweenEvent:FireServer("Parlus")
-                    replicated.Remotes.HalloweenEvent:FireServer("ignore")
-                    local rf = replicated:FindFirstChild("{6306b822-ed5d-426c-b0c1-5cdb809cc7f5}")
-                    if rf and rf:FindFirstChild("RemoteFunction") then
-                        rf.RemoteFunction:InvokeServer("ignore")
-                    end
-                end)
-
-                task.wait(trickDelay)
-            end
-        end
-    end
-end)
-
-
-local HalloweenDoorEnemies = Tabs.Halloween:AddToggle("AutoDefeatDoorEnemies", {
-    Title = "Auto Defeat Door Enemies",
-    Description = "",
-    Default = false
-})
-
-local HalloweenEnemies = {
-    "Cursed Skeleton",
-    "Vampire",
-    "Gorilla",
-    "Oni Soldier",
-    "Celestial Soldier",
-    "Snowman",
-    "rip_return",
-    "Unbound Werewolf",
-    "Rip Infantry"
-}
-
-HalloweenDoorEnemies:OnChanged(function(value)
-    _G.AutoDefeatHalloweenDoorEnemie = value
-end)
-
-task.spawn(function()
-    while task.wait(0.5) do
-        if _G.AutoDefeatHalloweenDoorEnemie then
-            local success, err = pcall(function()
-                for _, v in next, workspace.Enemies:GetChildren() do
-                    if v:IsA("Model")
-                    and v:FindFirstChild("Humanoid")
-                    and v.Humanoid.Health > 0
-                    and table.find(HalloweenEnemies, v.Name) then
-
-                        repeat
-                            task.wait()
-                            Attack.Kill(v, _G.AutoDefeatHalloweenDoorEnemie)
-                        until not _G.AutoDefeatHalloweenDoorEnemie or not v.Parent or v.Humanoid.Health <= 0
-                    end
-                end
-            end)
-
-            if not success then
-                warn("Auto Defeat Halloween Door Enemie Error:", err)
-                task.wait(1)
-            end
-        end
-    end
-end)
-
-
-Tabs.Halloween:AddButton({
-    Title = "Halloween Gacha",
-    Description = "",
-    Callback = function()
-        replicated.Remotes.CommF_:InvokeServer("Cousin", "HalloweenGacha25")
-    end
-})
-
-
-local AutoWerewolf = Tabs.Halloween:AddToggle("AutoWerewolf", {
-    Title = "Auto Defeat Werewolf",
-    Description = "",
-    Default = false
-})
-
-AutoWerewolf:OnChanged(function(value)
-    _G.Werewolf = value
-end)
-
-task.spawn(function()
-    while task.wait(0.5) do
-        if _G.Werewolf then
-            local success, err = pcall(function()
-                for _, v in pairs(workspace.Enemies:GetChildren()) do
-                    if v:IsA("Model") and v.Name == "Unbound Werewolf"
-                    and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
-                        if v.Humanoid.Health > 0 then
-                            repeat
-                                task.wait()
-                                Attack.Kill(v, _G.Werewolf)
-                            until not _G.Werewolf or not v.Parent or v.Humanoid.Health <= 0
-                        end
-                    end
-                end
-            end)
-
-            if not success then
-                warn("Werewolf AutoKill Error:", err)
-                task.wait(1)
-            end
-        end
-    end
-end)
+		Title = "Auto Lei Accessory",
+		Description = "",
+		Default = false
+	})
+	Q:OnChanged(function(Value)
+		_G.AutoKilo = Value
+	end)
+	spawn(function()
+		while wait(.2) do
+			if _G.AutoKilo then
+				pcall(function()
+					local v = GetConnectionEnemies("Kilo Admiral")
+					if v then
+						repeat
+							task.wait()
+							Attack.Kill(v, _G.AutoKilo)
+						until not _G.AutoKilo or not v.Parent or v.Humanoid.Health <= 0
+					else
+						_tp(CFrame.new(2764.2233886719, 432.46154785156, -7144.4580078125))
+					end
+				end)
+			end
+		end
+	end)
 	if World3 then
 	Tabs.Mirage:AddSection("Mystic Island / Full Moon")
 	FullMOOn = Tabs.Mirage:AddParagraph({
