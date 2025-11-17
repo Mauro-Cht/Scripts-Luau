@@ -2090,23 +2090,24 @@ end)
 		Title = "Discord",
 		Icon = "message-circle"
 	}),
+
 	Server = Window:AddTab({
 		Title = "Server",
 		Icon = "server"
 	}),
+
 	Main = Window:AddTab({
 		Title = "Main",
 		Icon = "home"
 	}),
+
 	Settings = Window:AddTab({
 		Title = "Settings",
 		Icon = "settings"
 	}),
-	Melee = Window:AddTab({
-		Title = "Fighting Styles V2",
-		Icon = "swords"
-	}),
-	
+
+	-- Removido: Melee / Fighting Styles V2
+
 	Fruit = Window:AddTab({
 		Title = "Fruit",
 		Icon = "apple"
@@ -2116,38 +2117,47 @@ end)
 		Title = "Farm Outros",
 		Icon = "scroll"
 	}),
+	
 	SeaEvent = Window:AddTab({
 		Title = "Sea Events",
 		Icon = "waves"
 	}),
+	
 	Mirage = Window:AddTab({
 		Title = "Race V4",
 		Icon = "moon"
 	}),
+	
 	Drago = Window:AddTab({
 		Title = "Dragon Dojo",
 		Icon = "flame"
 	}),
+	
 	Prehistoric = Window:AddTab({
 		Title = "Prehistoric",
 		Icon = "skull"
 	}),
+	
 	Raids = Window:AddTab({
 		Title = "Raids",
 		Icon = "axe"
 	}),
+	
 	Combat = Window:AddTab({
 		Title = "Pvp",
 		Icon = "crosshair"
 	}),
+	
 	Travel = Window:AddTab({
 		Title = "Travel",
 		Icon = "map-pin"
 	}),
+	
 	Shop = Window:AddTab({
 		Title = "Shop",
 		Icon = "shopping-cart"
 	}),
+	
 	Misc = Window:AddTab({
 		Title = "Misc",
 		Icon = "package"
@@ -5124,365 +5134,6 @@ end)
 			end)
 		end
 	end)
-
-	Tabs.Melee:AddSection("Fighting Melee Styles")
-	local SuperHuman = Tabs.Melee:AddToggle("SuperHuman", {
-		Title = "Auto Superhuman",
-		Description = "",
-		Default = false
-	})
-	SuperHuman:OnChanged(function(Value)
-		_G.Auto_SuperHuman = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			pcall(function()
-				if _G.Auto_SuperHuman then
-					local M_Beli = plr.Data.Beli.Value
-					local M_Frag = plr.Data.Fragments.Value
-					if plr:FindFirstChild("WeaponAssetCache") then
-						if not GetBP("Superhuman") then
-							if not GetBP("Black Leg") then
-								if (M_Beli >= 150000) then
-									replicated.Remotes.CommF_:InvokeServer("BuyBlackLeg")
-								end
-							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value < 299 then
-								_G.Level = true
-							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value >= 300 then
-								_G.Level = false
-							end
-							if not GetBP("Electro") then
-								if (M_Beli >= 500000) then
-									replicated.Remotes.CommF_:InvokeServer("BuyElectro")
-								end
-							elseif GetBP("Electro") and GetBP("Electro").Level.Value < 299 then
-								_G.Level = true
-							elseif GetBP("Electro") and GetBP("Electro").Level.Value >= 300 then
-								_G.Level = false
-							end
-							if not GetBP("Fishman Karate") then
-								if (M_Beli >= 750000) then
-									replicated.Remotes.CommF_:InvokeServer("BuyFishmanKarate")
-								end
-							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value < 299 then
-								_G.Level = true
-							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value >= 300 then
-								_G.Level = false
-							end
-							if not GetBP("Dragon Claw") then
-								if (M_Frag >= 1500) then
-									replicated.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
-								end
-							elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value < 299 then
-								_G.Level = true
-							elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value >= 300 then
-								_G.Level = false
-							end
-							replicated.Remotes.CommF_:InvokeServer("BuySuperhuman")
-						end
-					end
-				end
-			end)
-		end
-	end)
-	local DeathStep = Tabs.Melee:AddToggle("DeathStep", {
-		Title = "Auto DeathStep",
-		Description = "",
-		Default = false
-	})
-	DeathStep:OnChanged(function(Value)
-		_G.AutoDeathStep = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			if _G.AutoDeathStep then
-				pcall(function()
-					if plr:FindFirstChild("WeaponAssetCache") then
-						if not GetBP("Death Step") then
-							if not GetBP("Black Leg") then
-								replicated.Remotes.CommF_:InvokeServer("BuyBlackLeg")
-							end
-							if GetBP("Black Leg") and GetBP("Black Leg").Level.Value >= 400 then
-								replicated.Remotes.CommF_:InvokeServer("BuyDeathStep")
-								_G.Level = false
-							elseif GetBP("Black Leg") and GetBP("Black Leg").Level.Value < 399 then
-								_G.Level = true
-							end
-							if GetBP("Black Leg") or GetBP("Black Leg").Level.Value >= 400 then
-								if workspace.Map.IceCastle.Hall.LibraryDoor.PhoeyuDoor.Transparency == 0 then
-									if GetBP("Library Key") then
-										repeat
-											wait()
-											_tp(CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375))
-										until not _G.AutoDeathStep or (Root.Position == CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375).Position)
-										if (Root.CFrame == CFrame.new(6371.2001953125, 296.63433837890625, -6841.18115234375)) then
-											replicated.Remotes.CommF_:InvokeServer("BuyDeathStep")
-										end
-									elseif not GetBP("Library Key") then
-										local v = GetConnectionEnemies("Awakened Ice Admiral")
-										if v then
-											repeat
-												wait()
-												Attack.Kill(v, _G.AutoDeathStep)
-											until not v.Parent or v.Humanoid.Health <= 0 or _G.AutoDeathStep == false or GetBP("Library Key") or GetBP("Death Step")
-										else
-											_tp(CFrame.new(5668.9780273438, 28.519989013672, -6483.3520507813))
-										end
-									end
-								end
-							end
-						end
-					end
-				end)
-			end
-		end
-	end)
-	local SharkManV2 = Tabs.Melee:AddToggle("SharkManV2", {
-		Title = "Auto Sharkman Karate",
-		Description = "",
-		Default = false
-	})
-	SharkManV2:OnChanged(function(Value)
-		_G.Auto_SharkMan_Karate = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			if _G.Auto_SharkMan_Karate then
-				pcall(function()
-					if plr:FindFirstChild("WeaponAssetCache") then
-						if not GetBP("Sharkman Karate") then
-							if not GetBP("Fishman Karate") then
-								replicated.Remotes.CommF_:InvokeServer("BuyFishmanKarate")
-							end
-							if GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value >= 400 then
-								replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate")
-								_G.Level = false
-							elseif GetBP("Fishman Karate") and GetBP("Fishman Karate").Level.Value < 399 then
-								_G.Level = true
-							end
-							if GetBP("Fishman Karate") or GetBP("Fishman Karate").Level.Value >= 400 then
-								if GetBP("Water Key") then
-									if string.find(replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate"), "keys") then
-										if GetBP("Water Key") then
-											repeat
-												wait()
-												_tp(CFrame.new(-2604.6958, 239.432526, -10315.1982, 0.0425701365, 0, -0.999093413, 0, 1, 0, 0.999093413, 0, 0.0425701365))
-											until not _G.Auto_SharkMan_Karate or (Root.Position == CFrame.new(-2604.6958, 239.432526, -10315.1982, 0.0425701365, 0, -0.999093413, 0, 1, 0, 0.999093413, 0, 0.0425701365).Position)
-											replicated.Remotes.CommF_:InvokeServer("BuySharkmanKarate")
-										end
-									end
-								elseif not GetBP("Water Key") then
-									local v = GetConnectionEnemies("Tide Keeper")
-									if v then
-										repeat
-											wait()
-											Attack.Kill(v, _G.Auto_SharkMan_Karate)
-										until not v.Parent or v.Humanoid.Health <= 0 or _G.Auto_SharkMan_Karate == false or GetBP("Water Key") or GetBP("Sharkman Karate")
-									else
-										_tp(CFrame.new(-3053.9814453125, 237.18954467773, -10145.0390625))
-									end
-								end
-							end
-						end
-					end
-				end)
-			end
-		end
-	end)
-	local ElectricClaw = Tabs.Melee:AddToggle("ElectricClaw", {
-		Title = "Auto ElectricClaw",
-		Description = "",
-		Default = false
-	})
-	ElectricClaw:OnChanged(function(Value)
-		_G.Auto_Electric_Claw = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			if _G.Auto_Electric_Claw then
-				pcall(function()
-					if plr:FindFirstChild("WeaponAssetCache") then
-						if not GetBP("Electro") then
-							replicated.Remotes.CommF_:InvokeServer("BuyElectro")
-						end
-						if GetBP("Electro") and GetBP("Electro").Level.Value >= 400 then
-							if replicated.Remotes.CommF_:InvokeServer("BuyElectricClaw", "Start") == nil then
-								notween(CFrame.new(-12548, 337, -7481))
-							end
-							replicated.Remotes.CommF_:InvokeServer("BuyElectricClaw")
-						elseif GetBP("Electro") and GetBP("Electro").Level.Value < 400 then
-							repeat
-								_G.AutoFarm_Bone = true
-								wait()
-							until not _G.Auto_Electric_Claw or GetBP("Electric Claw")
-							_G.AutoFarm_Bone = false
-						end
-					end
-				end)
-			end
-		end
-	end)
-	local DragonTalon = Tabs.Melee:AddToggle("DragonTalon", {
-		Title = "Auto DragonTalon",
-		Description = "",
-		Default = false
-	})
-	DragonTalon:OnChanged(function(Value)
-		_G.AutoDragonTalon = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			if _G.AutoDragonTalon then
-				pcall(function()
-					if plr:FindFirstChild("WeaponAssetCache") then
-						if not GetBP("Dragon Claw") then
-							replicated.Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
-						end
-						if GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value >= 400 then
-							replicated.Remotes.CommF_:InvokeServer("Bones", "Buy", 1, 1)
-							replicated.Remotes.CommF_:InvokeServer("BuyDragonTalon")
-						elseif GetBP("Dragon Claw") and GetBP("Dragon Claw").Level.Value < 400 then
-							repeat
-								_G.AutoFarm_Bone = true
-								wait()
-							until not _G.AutoDragonTalon or GetBP("Dragon Talon")
-							_G.AutoFarm_Bone = false
-						end
-					end
-				end)
-			end
-		end
-	end)
-	local Godhuman = Tabs.Melee:AddToggle("Godhuman", {
-		Title = "Auto Godhuman",
-		Description = "",
-		Default = false
-	})
-	Godhuman:OnChanged(function(Value)
-		_G.Auto_God_Human = Value
-	end)
-	spawn(function()
-		while wait() do
-			pcall(function()
-				if _G.AutoGodHuman then
-					if replicated.Remotes.CommF_:InvokeServer("BuyGodhuman", true) == "Bring me 20 Fish Tails, 20 Magma Ore, 10 Dragon Scales and 10 Mystic Droplets." then
-						if GetM("Dragon Scale") == false or GetM("Dragon Scale") < 10 then
-							if World3 then
-								Lv = 1575
-								_G.Level = true
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelZou")
-							end
-						elseif GetM("Fish Tail") == false or GetM("Fish Tail") < 20 then
-							if World3 then
-								Lv = 1775
-								_G.Level = true
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelZou")
-							end
-						elseif GetM("Mystic Droplet") == false or GetM("Mystic Droplet") < 10 then
-							if World2 then
-								Lv = 1425
-								_G.Level = true
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
-							end
-						elseif GetM("Magma Ore") == false or GetM("Magma Ore") < 20 then
-							if World2 then
-								Lv = 1175
-								_G.Level = true
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
-							end
-						end
-					elseif replicated.Remotes.CommF_:InvokeServer("BuyGodhuman", true) == 3 then
-						return nil
-					else
-						replicated.Remotes.CommF_:InvokeServer("BuyGodhuman")
-					end
-				end
-			end)
-		end
-	end)
-	local SanguineArt = Tabs.Melee:AddToggle("SanguineArt", {
-		Title = "Auto SanguineArt",
-		Description = "",
-		Default = false
-	})
-	SanguineArt:OnChanged(function(Value)
-		_G.snaguine = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			if _G.snaguine then
-				pcall(function()
-					if not GetBP("Sanguine Art") then
-						replicated.Remotes.CommF_:InvokeServer("Sanguine Art")
-					end
-					if not GetBP("Sanguine Art") then
-						if GetM("Leviathan Heart") >= 1 then
-							print("Completed!!")
-						else
-							if World3 then
-								_G.DangerSc = "Lv Infinite"
-								_G.SailBoats = true;
-							else
-								_G.SailBoats = false;
-							end
-						end
-						if GetM("Vampire Fang") <= 19 then
-							if World2 then
-								local n = GetConnectionEnemies("Vampire")
-								if n then
-									repeat
-										task.wait()
-										Attack.Kill(n, _G.snaguine)
-									until not _G.snaguine or n.Humanoid.Health <= 0 or not n.Parent
-								else
-									_tp(CFrame.new(-6041.29248046875, 6.402710914611816, -1304.63330078125))
-								end
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
-							end
-						end
-						if GetM("Vampire Fang") >= 20 and GetM("Demonic Wisp") <= 19 then
-							if World3 then
-								local n = GetConnectionEnemies("Demonic Soul")
-								if n then
-									repeat
-										task.wait()
-										Attack.Kill(n, _G.snaguine)
-									until not _G.snaguine or n.Humanoid.Health <= 0 or not n.Parent
-								else
-									_tp(CFrame.new(-9495.6806640625, 453.58624267578125, 5977.3486328125))
-								end
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelZou")
-							end
-						end
-						if GetM("Vampire Fang") >= 20 and GetM("Demonic Wisp") >= 20 and GetM("Dark Fragment") <= 1 then
-							if World2 then
-								local n = GetConnectionEnemies("Darkbeard")
-								if n then
-									repeat
-										task.wait()
-										Attack.Kill(black, _G.snaguine)
-									until _G.snaguine or black.Humanoid.Health <= 0 or not black.Parent
-								else
-									_tp(CFrame.new(3798.4575195313, 13.826690673828, -3399.806640625))
-								end
-							else
-								replicated.Remotes.CommF_:InvokeServer("TravelDressrosa")
-							end
-						end
-					else
-						replicated.Remotes.CommF_:InvokeServer("BuySanguineArt")
-					end
-				end)
-			end
-		end
-	end)
-
 	Tabs.Quests:AddSection("Tushita + Yama")
 	local Process = Tabs.Quests:AddParagraph({
 		Title = "Elites Process ",
