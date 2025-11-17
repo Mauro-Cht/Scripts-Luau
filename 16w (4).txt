@@ -2003,9 +2003,9 @@ Sea = World1 or World2 or World3 or plr:Kick("❌ Error : A[12]Blox Fruits ❌")
 
 local Window = Fluent:CreateWindow({
     Title = "Night Mystic",
-    SubTitle = "By MauroZzx | Blox Fruits",
+    SubTitle = "By Hey Star & MauroZzx | Blox Fruits",
     TabWidth = 175,
-    Theme = "VSC Dark High Contrast",
+    Theme = "PurpleBlack",
     Acrylic = false,
     Size = UDim2.fromOffset(340, 340),
     MinimizeKey = Enum.KeyCode.End,
@@ -2455,7 +2455,7 @@ end)
 
 -- 🟣 Botão Halloween Gacha
 Tabs.MiscFarm:AddButton({
-    Title = "Halloween Gacha",
+    Title = "Roll Event Halloween",
     Description = "",
     Callback = function()
         replicated.Remotes.CommF_:InvokeServer("Cousin", "HalloweenGacha25")
@@ -2633,7 +2633,7 @@ local DiscordSection = Tabs.Discord:AddSection("Discord")
 DiscordSection:AddButton({
 	Title = "Nosso Servidor do Discord",
 	Callback = function()
-		setclipboard("https://discord.gg/nightshadow")
+		setclipboard("https://discord.gg/xp4CPzGwB")
 	end
 })
 
@@ -4823,7 +4823,7 @@ end)
 	end)
 	Tabs.Main:AddSection("Upgrade Races V3")
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Mink v3",
+		Title = "Auto Mink V2/V3",
 		Description = "",
 		Default = false
 	})
@@ -4868,7 +4868,7 @@ end)
 		end
 	end)
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Human V3",
+		Title = "Auto Human V2/V3",
 		Description = "",
 		Default = false
 	})
@@ -4937,7 +4937,7 @@ end)
 		end
 	end)
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Anjo V3",
+		Title = "Auto Anjo V2/V3",
 		Description = "",
 		Default = false
 	})
@@ -4987,7 +4987,7 @@ end)
 		end
 	end)
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Sharkman V3",
+		Title = "Auto Shark V2/V3",
 		Description = "",
 		Default = false
 	})
@@ -5032,7 +5032,7 @@ end)
 
 	Tabs.Main:AddSection("Dark Dragger + Valkyrie")
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Valkyrie",
+		Title = "Auto Kill Rip_indra",
 		Description = "",
 		Default = false
 	})
@@ -5059,7 +5059,7 @@ end)
 		end
 	end)
 	local Q = Tabs.Main:AddToggle("Q", {
-		Title = "Auto Desbloquear Puzzle",
+		Title = "Auto Active Cores",
 		Description = "",
 		Default = false
 	})
