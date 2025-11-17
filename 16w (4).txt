@@ -4049,8 +4049,7 @@ end)
 				end
 			end
 		end
-	end)
-
+	end) 
 	Tabs.Main:AddSection("Unlocked Dungeon")
 	local Q = Tabs.Main:AddToggle("Q", {
 		Title = "Auto Desbloquear Raid Dough",
