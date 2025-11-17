@@ -34,12 +34,9 @@
 		local start = plr.PlayerGui:WaitForChild("Main"):WaitForChild("Loading") and game:IsLoaded()
 		wait()
 	until start
-	World1 = game.PlaceId == 85211729168715
-  World2 = game.PlaceId == 79091703265657
-  World3 = game.PlaceId == 100117331123089
 	World1 = game.PlaceId == 2753915549
-	World2 = game.PlaceId == 4442272183
-	World3 = game.PlaceId == 7449423635
+World2 = game.PlaceId == 4442272183 or game.PlaceId == 79091703265657
+World3 = game.PlaceId == 7449423635 or game.PlaceId == 100117331123089
 	Marines = function()
 		replicated.Remotes.CommF_:InvokeServer("SetTeam", "Marines")
 	end
@@ -11541,4 +11538,5 @@ end)
 			end)
 		end)
 	end)
+
 	Window:SelectTab(1)
