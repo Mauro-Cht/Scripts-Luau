@@ -2443,53 +2443,113 @@ task.spawn(function()
         end
     end
 end)
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local Players = game:GetService("Players")
-	if World3 then
-		Tabs.Main:AddSection("Farm")
-		local TeleportToggle = Tabs.Main:AddToggle("tpSubmarineWorker", {
-			Title = "Teleport Submerged Island",
-			Description = "Teleport to Submarine Worker (Level >= 2600, World 3 only)",
-			Default = false,
-			Callback = function(value)
-				_G.tpSubmarineWorker = value
-			end
-		})
-		spawn(function()
-			while wait(0.5) do
-				if _G.tpSubmarineWorker then
-					pcall(function()
-						local a = Players.LocalPlayer.Data.Level.Value
-						local npcPosition = CFrame.new(-16269.1016, 29.5177539, 1372.3204)
+	-- Section Home
+local HomeSection = Tabs.Discord:AddSection("Home")
 
-						-- Kiểm tra level >= 2600
-						if a >= 2600 then
-							-- Teleport đến NPC
-							if Players.LocalPlayer.Character and Players.LocalPlayer.Character.HumanoidRootPart then
-								local maxAttempts = 3
-								local attempt = 1
-								local distance = math.huge
+-- Paragraph de tempo
+local TempoParagraph = HomeSection:AddParagraph({
+	Title = "Tempo de execução:",
+	Content = "0 segundos"
+})
 
-								while attempt <= maxAttempts and distance > 10 do
-									_tp(npcPosition)
-									wait(3)
-									if Players.LocalPlayer.Character and Players.LocalPlayer.Character.HumanoidRootPart then
-										distance = (Players.LocalPlayer.Character.HumanoidRootPart.Position - npcPosition.Position).Magnitude
-										attempt = attempt + 1
-									else
-										return
-									end
-								end
-							end
-						else
-							_G.tpSubmarineWorker = false
-							TeleportToggle:Set(false)
-						end
-					end)
-				end
+-- Paragraph de boas-vindas
+HomeSection:AddParagraph({
+	Title = "Bem-vindo!",
+	Content = "Espero que goste do nosso script :3"
+})
+
+-- Section Discord
+local DiscordSection = Tabs.Discord:AddSection("Discord")
+
+-- Botão do Discord
+DiscordSection:AddButton({
+	Title = "Nosso Servidor do Discord",
+	Callback = function()
+		setclipboard("https://discord.gg/nightshadow")
+	end
+})
+
+-- Sistema de contador de tempo
+local startTime = tick()
+spawn(function()
+	while task.wait(1) do
+		local elapsed = math.floor(tick() - startTime)
+
+		pcall(function()
+			if TempoParagraph.UpdateContent then
+				TempoParagraph:UpdateContent(tostring(elapsed) .. " segundos")
+			elseif TempoParagraph.Update then
+				TempoParagraph:Update(tostring(elapsed) .. " segundos")
+			elseif TempoParagraph.SetContent then
+				TempoParagraph:SetContent(tostring(elapsed) .. " segundos")
+			else
+				TempoParagraph:Destroy()
+				TempoParagraph = HomeSection:AddParagraph({
+					Title = "Tempo de execução:",
+					Content = tostring(elapsed) .. " segundos"
+				})
 			end
 		end)
 	end
+end)
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local plr = Players.LocalPlayer
+
+if World3 then
+    Tabs.Main:AddSection("Farm")
+
+    --  Sistema de seleção de arma (substitui o botão de teleporte)
+    local _Weapon = {
+        "Melee",
+        "Sword",
+        "Blox Fruit",
+        "Gun"
+    }
+
+    local Weapon_Config = Tabs.Main:AddDropdown("Weapon_Config", {
+        Title = "Weapons",
+        Values = _Weapon,
+        Multi = false,
+        Default = 1
+    })
+
+    Weapon_Config:OnChanged(function(Value)
+        _G.ChooseWP = Value
+    end)
+
+    spawn(function()
+        while wait(Sec) do
+            pcall(function()
+                if _G.ChooseWP == "Melee" then
+                    for _, v in pairs(plr.Backpack:GetChildren()) do
+                        if v.ToolTip == "Melee" then
+                            _G.SelectWeapon = v.Name
+                        end
+                    end
+                elseif _G.ChooseWP == "Sword" then
+                    for _, v in pairs(plr.Backpack:GetChildren()) do
+                        if v.ToolTip == "Sword" then
+                            _G.SelectWeapon = v.Name
+                        end
+                    end
+                elseif _G.ChooseWP == "Gun" then
+                    for _, v in pairs(plr.Backpack:GetChildren()) do
+                        if v.ToolTip == "Gun" then
+                            _G.SelectWeapon = v.Name
+                        end
+                    end
+                elseif _G.ChooseWP == "Blox Fruit" then
+                    for _, v in pairs(plr.Backpack:GetChildren()) do
+                        if v.ToolTip == "Blox Fruit" then
+                            _G.SelectWeapon = v.Name
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end
 	local FarmLevel = Tabs.Main:AddToggle("FarmLevel", {
 		Title = "Auto Farm Level",
 		Description = "Famar Níveis Automaticamente",
@@ -4886,63 +4946,6 @@ end)
 			end
 		end
 	end)
-
-	Tabs.Settings:AddSection("Settings / Configure")
-	local _Weapon = {
-		"Melee",
-		"Sword",
-		"Blox Fruit",
-		"Gun"
-	}
-	local Weapon_Config = Tabs.Settings:AddDropdown("Weapon_Config", {
-		Title = "Weapons",
-		Values = _Weapon,
-		Multi = false,
-		Default = 1
-	})
-	Weapon_Config:OnChanged(function(Value)
-		_G.ChooseWP = Value
-	end)
-	spawn(function()
-		while wait(Sec) do
-			pcall(function()
-				if _G.ChooseWP == "Melee" then
-					for _, v in pairs(plr.Backpack:GetChildren()) do
-						if v.ToolTip == "Melee" then
-							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-								_G.SelectWeapon = v.Name
-							end
-						end
-					end
-				elseif _G.ChooseWP == "Sword" then
-					for _, v in pairs(plr.Backpack:GetChildren()) do
-						if v.ToolTip == "Sword" then
-							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-								_G.SelectWeapon = v.Name
-							end
-						end
-					end
-				elseif _G.ChooseWP == "Gun" then
-					for _, v in pairs(plr.Backpack:GetChildren()) do
-						if v.ToolTip == "Gun" then
-							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-								_G.SelectWeapon = v.Name
-							end
-						end
-					end
-				elseif _G.ChooseWP == "Blox Fruit" then
-					for _, v in pairs(plr.Backpack:GetChildren()) do
-						if v.ToolTip == "Blox Fruit" then
-							if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-								_G.SelectWeapon = v.Name
-							end
-						end
-					end
-				end
-			end)
-		end
-	end)
-
 	local Initialize = Tabs.Settings:AddToggle("Initialize", {
 		Title = "Auto Attack",
 		Description = "",
