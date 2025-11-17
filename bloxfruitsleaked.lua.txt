@@ -495,7 +495,8 @@ BringEnemy = function()
                         humanoid.WalkSpeed = 16
                         humanoid.JumpPower = 16
                         if humanoid:FindFirstChild("Animator") then
-                    
+                            humanoid.Animator:Destroy()
+                        end
                         pcall(function()
                             sethiddenproperty(plr, "SimulationRadius", math.huge)
                         end)
@@ -968,11 +969,7 @@ end
 						Noclip.Velocity = Vector3.new(0, 0, 0)
 					end
 					if not plr.Character:FindFirstChild('highlight') then
-						local Test = Instance.new('Highlight')
-						Test.Name = "highlight"
-						Test.Enabled = true
-						Test.FillColor = Color3.fromRGB(0, 191, 255) -- xanh nước biển
-						Test.OutlineColor = Color3.fromRGB(255, 255, 255)
+						
 						Test.FillTransparency = 0.5
 						Test.OutlineTransparency = 0.2
 						Test.Parent = plr.Character
@@ -11539,4 +11536,3 @@ end)
 	end)
 
 	Window:SelectTab(1)
-
