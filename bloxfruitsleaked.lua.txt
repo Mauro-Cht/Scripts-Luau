@@ -483,20 +483,19 @@ BringEnemy = function()
         if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
             local hrp = v.HumanoidRootPart
             local humanoid = v.Humanoid
-            if humanoid.Health > 0 and (hrp.Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 350 then
+            if humanoid.Health > 0 and (hrp.Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 175 then
                 local mobPos = totalpos[v.Name]
                 if mobPos then
                     local TargetCFrame = CFrame.new(mobPos.X, mobPos.Y, mobPos.Z)
                     local Distance = (hrp.Position - TargetCFrame.Position).Magnitude
 
-                    if Distance > 3 and Distance <= 280 then
+                    if Distance > 3 and Distance <= 175 then
                         TweenObject(hrp, TargetCFrame, 300)
-                        hrp.CanCollide = false
-                        humanoid.WalkSpeed = 0
-                        humanoid.JumpPower = 0
+                        hrp.CanCollide = true 
+                        humanoid.WalkSpeed = 16
+                        humanoid.JumpPower = 16
                         if humanoid:FindFirstChild("Animator") then
-                            humanoid.Animator:Destroy()
-                        end
+                    
                         pcall(function()
                             sethiddenproperty(plr, "SimulationRadius", math.huge)
                         end)
@@ -11540,3 +11539,4 @@ end)
 	end)
 
 	Window:SelectTab(1)
+
