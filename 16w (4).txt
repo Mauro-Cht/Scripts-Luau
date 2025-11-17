@@ -2147,7 +2147,11 @@ end)
     })
 }
 
-local Section = Tabs.MiscFarm:AddSection("Fishing System")
+---------------------------------------------------------------------
+-- SECTION FISHING
+---------------------------------------------------------------------
+
+local SectionFishing = Tabs.MiscFarm:AddSection("Fishing System")
 
 local SelectedRod = "Fishing Rod"
 local SelectedBait = "Basic Bait"
@@ -2287,6 +2291,12 @@ function StartFishingLoop()
 	end)
 end
 
+---------------------------------------------------------------------
+-- SECTION HALLOWEEN
+---------------------------------------------------------------------
+
+local SectionHalloween = Tabs.MiscFarm:AddSection("Halloween Event")
+
 local HalloweenToggle = Tabs.MiscFarm:AddToggle("HalloweenToggle", {
 	Title = "Auto Trick or Treat",
 	Default = false
@@ -2336,9 +2346,7 @@ spawn(function()
 	while task.wait(0.1) do
 		if _G.HalloweenToggle then
 			for i = 1, #DoorPositions do
-				if not _G.HalloweenToggle then
-					break
-				end
+				if not _G.HalloweenToggle then break end
 
 				local cf = DoorPositions[i]
 				_tp(cf + Vector3.new(0, 3, 0))
@@ -2395,7 +2403,7 @@ end)
 spawn(function()
 	while task.wait(0.5) do
 		if _G.AutoDefeatHalloweenDoorEnemie then
-			local success, err = pcall(function()
+			pcall(function()
 				for i, v in next, game.Workspace.Enemies:GetChildren() do
 					if v:IsA("Model")
 					and v:FindFirstChild("Humanoid")
@@ -2425,8 +2433,8 @@ end)
 task.spawn(function()
 	while task.wait(0.5) do
 		if _G.Werewolf then
-			local success, err = pcall(function()
-				for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+			pcall(function()
+				for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
 					if v:IsA("Model") and v.Name == "Unbound Werewolf" and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
 						if v.Humanoid.Health > 0 then
 							repeat
@@ -2440,7 +2448,6 @@ task.spawn(function()
 		end
 	end
 end)
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local plr = Players.LocalPlayer
